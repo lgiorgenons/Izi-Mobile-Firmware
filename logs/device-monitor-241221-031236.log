@@ -1,0 +1,87 @@
+ets Jun  8 2016 00:22:57
+
+rst:0x1 (POWERON_RESET),boot:0x13 (SPI_FAST_FLASH_BOOT)
+configsip: 0, SPIWP:0xee
+clk_drv:0x00,q_drv:0x00,d_drv:0x00,cs0_drv:0x00,hd_drv:0x00,wp_drv:0x00
+mode:DIO, clock div:2
+load:0x3fff0030,len:1184
+load:0x40078000,len:13232
+load:0x40080400,len:3028
+entry 0x400805e4
+[    17][D][esp32-hal-cpu.c:244] setCpuFrequencyMhz(): PLL: 480 / 2 = 240 Mhz, APB: 80000000 Hz
+[    38][V][esp32-hal-uart.c:330] uartBegin(): UART0 baud(115200) Mode(800001c) rxPin(3) txPin(1)
+[    48][V][esp32-hal-uart.c:416] uartBegin(): UART0 not installed. Starting installation
+[    59][V][esp32-hal-uart.c:463] uartBegin(): UART0 initialization done.
+[    73][W][main.cpp:9] setup(): Inicializando Controll...
+Version: 0.0.2
+[    79][I][esp32-hal-i2c.c:75] i2cInit(): Initialising I2C Master: sda=21 scl=22 freq=100000
+[   594][I][BluetoothSerial.cpp:683] _init_bt(): device name set
+[   594][I][BluetoothSerial.cpp:571] esp_bt_gap_cb(): ESP_BT_GAP_CONFIG_EIR_DATA_EVT: stat:0 num:4
+[   609][W][izi.cpp:15] begin(): Nao foi possivel iniciar o Bluetooth...
+[   611][I][BluetoothSerial.cpp:263] esp_spp_cb(): ESP_SPP_INIT_EVT
+[   622][W][izi.cpp:17] begin(): Não possivel iniciar o Bluetooth... Tentando novamente
+[   622][I][BluetoothSerial.cpp:571] esp_bt_gap_cb(): ESP_BT_GAP_CONFIG_EIR_DATA_EVT: stat:0 num:4
+[  3639][W][izi.cpp:17] begin(): Não possivel iniciar o Bluetooth... Tentando novamente
+[  6647][W][izi.cpp:17] begin(): Não possivel iniciar o Bluetooth... Tentando novamente
+[  9655][W][izi.cpp:17] begin(): Não possivel iniciar o Bluetooth... Tentando novamente
+[ 12663][W][izi.cpp:17] begin(): Não possivel iniciar o Bluetooth... Tentando novamente
+[ 15671][W][izi.cpp:17] begin(): Não possivel iniciar o Bluetooth... Tentando novamente
+[ 18679][W][izi.cpp:17] begin(): Não possivel iniciar o Bluetooth... Tentando novamente
+[ 21687][W][izi.cpp:17] begin(): Não possivel iniciar o Bluetooth... Tentando novamente
+[ 24695][W][izi.cpp:17] begin(): Não possivel iniciar o Bluetooth... Tentando novamente
+[ 27703][W][izi.cpp:17] begin(): Não possivel iniciar o Bluetooth... Tentando novamente
+[ 30711][W][izi.cpp:17] begin(): Não possivel iniciar o Bluetooth... Tentando novamente
+[ 33719][W][izi.cpp:17] begin(): Não possivel iniciar o Bluetooth... Tentando novamente
+[ 36727][W][izi.cpp:17] begin(): Não possivel iniciar o Bluetooth... Tentando novamente
+[ 39735][W][izi.cpp:17] begin(): Não possivel iniciar o Bluetooth... Tentando novamente
+[ 42743][W][izi.cpp:17] begin(): Não possivel iniciar o Bluetooth... Tentando novamente
+[ 45751][W][izi.cpp:17] begin(): Não possivel iniciar o Bluetooth... Tentando novamente
+[ 48759][W][izi.cpp:17] begin(): Não possivel iniciar o Bluetooth... Tentando novamente
+[ 51767][W][izi.cpp:17] begin(): Não possivel iniciar o Bluetooth... Tentando novamente
+[ 54775][W][izi.cpp:17] begin(): Não possivel iniciar o Bluetooth... Tentando novamente
+[ 57783][W][izi.cpp:17] begin(): Não possivel iniciar o Bluetooth... Tentando novamente
+[ 60791][W][izi.cpp:17] begin(): Não possivel iniciar o Bluetooth... Tentando novamente
+[ 63799][W][izi.cpp:17] begin(): Não possivel iniciar o Bluetooth... Tentando novamente
+[ 66807][W][izi.cpp:17] begin(): Não possivel iniciar o Bluetooth... Tentando novamente
+[ 69815][W][izi.cpp:17] begin(): Não possivel iniciar o Bluetooth... Tentando novamente
+[ 72823][W][izi.cpp:17] begin(): Não possivel iniciar o Bluetooth... Tentando novamente
+[ 75831][W][izi.cpp:17] begin(): Não possivel iniciar o Bluetooth... Tentando novamente
+[ 78839][W][izi.cpp:17] begin(): Não possivel iniciar o Bluetooth... Tentando novamente
+[ 81847][W][izi.cpp:17] begin(): Não possivel iniciar o Bluetooth... Tentando novamente
+[ 84855][W][izi.cpp:17] begin(): Não possivel iniciar o Bluetooth... Tentando novamente
+[ 87863][W][izi.cpp:17] begin(): Não possivel iniciar o Bluetooth... Tentando novamente
+[ 90871][W][izi.cpp:17] begin(): Não possivel iniciar o Bluetooth... Tentando novamente
+[ 93879][W][izi.cpp:17] begin(): Não possivel iniciar o Bluetooth... Tentando novamente
+[ 96887][W][izi.cpp:17] begin(): Não possivel iniciar o Bluetooth... Tentando novamente
+[ 99895][W][izi.cpp:17] begin(): Não possivel iniciar o Bluetooth... Tentando novamente
+[102903][W][izi.cpp:17] begin(): Não possivel iniciar o Bluetooth... Tentando novamente
+[105911][W][izi.cpp:17] begin(): Não possivel iniciar o Bluetooth... Tentando novamente
+[108919][W][izi.cpp:17] begin(): Não possivel iniciar o Bluetooth... Tentando novamente
+[111927][W][izi.cpp:17] begin(): Não possivel iniciar o Bluetooth... Tentando novamente
+[114935][W][izi.cpp:17] begin(): Não possivel iniciar o Bluetooth... Tentando novamente
+[117943][W][izi.cpp:17] begin(): Não possivel iniciar o Bluetooth... Tentando novamente
+[120951][W][izi.cpp:17] begin(): Não possivel iniciar o Bluetooth... Tentando novamente
+[123959][W][izi.cpp:17] begin(): Não possivel iniciar o Bluetooth... Tentando novamente
+[126967][W][izi.cpp:17] begin(): Não possivel iniciar o Bluetooth... Tentando novamente
+[129975][W][izi.cpp:17] begin(): Não possivel iniciar o Bluetooth... Tentando novamente
+[132983][W][izi.cpp:17] begin(): Não possivel iniciar o Bluetooth... Tentando novamente
+[135991][W][izi.cpp:17] begin(): Não possivel iniciar o Bluetooth... Tentando novamente
+[138999][W][izi.cpp:17] begin(): Não possivel iniciar o Bluetooth... Tentando novamente
+[142007][W][izi.cpp:17] begin(): Não possivel iniciar o Bluetooth... Tentando novamente
+[145015][W][izi.cpp:17] begin(): Não possivel iniciar o Bluetooth... Tentando novamente
+[148023][W][izi.cpp:17] begin(): Não possivel iniciar o Bluetooth... Tentando novamente
+[151031][W][izi.cpp:17] begin(): Não possivel iniciar o Bluetooth... Tentando novamente
+[154039][W][izi.cpp:17] begin(): Não possivel iniciar o Bluetooth... Tentando novamente
+[157047][W][izi.cpp:17] begin(): Não possivel iniciar o Bluetooth... Tentando novamente
+[160055][W][izi.cpp:17] begin(): Não possivel iniciar o Bluetooth... Tentando novamente
+[163063][W][izi.cpp:17] begin(): Não possivel iniciar o Bluetooth... Tentando novamente
+[166071][W][izi.cpp:17] begin(): Não possivel iniciar o Bluetooth... Tentando novamente
+[169079][W][izi.cpp:17] begin(): Não possivel iniciar o Bluetooth... Tentando novamente
+[172087][W][izi.cpp:17] begin(): Não possivel iniciar o Bluetooth... Tentando novamente
+[175095][W][izi.cpp:17] begin(): Não possivel iniciar o Bluetooth... Tentando novamente
+[178103][W][izi.cpp:17] begin(): Não possivel iniciar o Bluetooth... Tentando novamente
+[181111][W][izi.cpp:17] begin(): Não possivel iniciar o Bluetooth... Tentando novamente
+[184119][W][izi.cpp:17] begin(): Não possivel iniciar o Bluetooth... Tentando novamente
+[187127][W][izi.cpp:17] begin(): Não possivel iniciar o Bluetooth... Tentando novamente
+[190135][W][izi.cpp:17] begin(): Não possivel iniciar o Bluetooth... Tentando novamente
+[193143][W][izi.cpp:17] begin(): Não possivel iniciar o Bluetooth... Tentando novamente

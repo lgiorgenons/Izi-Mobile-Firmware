@@ -1,0 +1,455 @@
+[    18][D][esp32-hal-cpu.c:244] setCpuFrequencyMhz(): PLL: 480 / 2 = 240 Mhz, APB: 80000000 Hz
+[    38][V][esp32-hal-uart.c:330] uartBegin(): UART0 baud(115200) Mode(800001c) rxPin(3) txPin(1)
+[    48][V][esp32-hal-uart.c:416] uartBegin(): UART0 not installed. Starting installation
+[    59][V][esp32-hal-uart.c:463] uartBegin(): UART0 initialization done.
+[    73][W][main.cpp:9] setup(): Inicializando Controll...
+Version: 0.0.2
+[    79][I][esp32-hal-i2c.c:75] i2cInit(): Initialising I2C Master: sda=21 scl=22 freq=100000
+[   589][I][BluetoothSerial.cpp:683] _init_bt(): device name set
+[   592][I][BluetoothSerial.cpp:263] esp_spp_cb(): ESP_SPP_INIT_EVT
+[   602][I][BluetoothSerial.cpp:270] esp_spp_cb(): ESP_SPP_INIT_EVT: slave: start
+[   602][W][izi.cpp:15] begin(): Nao foi possivel iniciar o Bluetooth...
+[   615][W][izi.cpp:17] begin(): Não possivel iniciar o Bluetooth... Tentando novamente
+[   623][W][izi.cpp:17] begin(): Não possivel iniciar o Bluetooth... Tentando novamente
+[   624][I][BluetoothSerial.cpp:571] esp_bt_gap_cb(): ESP_BT_GAP_CONFIG_EIR_DATA_EVT: stat:0 num:4
+[   640][W][izi.cpp:17] begin(): Não possivel iniciar o Bluetooth... Tentando novamente
+[   640][I][BluetoothSerial.cpp:397] esp_spp_cb(): ESP_SPP_START_EVT
+[   654][W][izi.cpp:17] begin(): Não possivel iniciar o Bluetooth... Tentando novamente
+[   662][W][izi.cpp:17] begin(): Não possivel iniciar o Bluetooth... Tentando novamente
+ets Jun  8 2016 00:22:57
+
+rst:0xc (SW_CPU_RESET),boot:0x13 (SPI_FAST_FLASH_BOOT)
+configsip: 0, SPIWP:0xee
+clk_drv:0x00,q_drv:0x00,d_drv:0x00,cs0_drv:0x00,hd_drv:0x00,wp_drv:0x00
+mode:DIO, clock div:2
+load:0x3fff0030,len:1184
+load:0x40078000,len:13232
+load:0x40080400,len:3028
+entry 0x400805e4
+[    18][D][esp32-hal-cpu.c:244] setCpuFrequencyMhz(): PLL: 480 / 2 = 240 Mhz, APB: 80000000 Hz
+[    38][V][esp32-hal-uart.c:330] uartBegin(): UART0 baud(115200) Mode(800001c) rxPin(3) txPin(1)
+[    48][V][esp32-hal-uart.c:416] uartBegin(): UART0 not installed. Starting installation
+[    59][V][esp32-hal-uart.c:463] uartBegin(): UART0 initialization done.
+[    73][W][main.cpp:9] setup(): Inicializando Controll...
+Version: 0.0.2
+[    79][I][esp32-hal-i2c.c:75] i2cInit(): Initialising I2C Master: sda=21 scl=22 freq=100000
+[   588][I][BluetoothSerial.cpp:683] _init_bt(): device name set
+[   591][I][BluetoothSerial.cpp:263] esp_spp_cb(): ESP_SPP_INIT_EVT
+[   601][I][BluetoothSerial.cpp:270] esp_spp_cb(): ESP_SPP_INIT_EVT: slave: start
+[   601][W][izi.cpp:15] begin(): Nao foi possivel iniciar o Bluetooth...
+[   615][W][izi.cpp:17] begin(): Não possivel iniciar o Bluetooth... Tentando novamente
+[   623][W][izi.cpp:17] begin(): Não possivel iniciar o Bluetooth... Tentando novamente
+[   624][I][BluetoothSerial.cpp:571] esp_bt_gap_cb(): ESP_BT_GAP_CONFIG_EIR_DATA_EVT: stat:0 num:4
+[   639][W][izi.cpp:17] begin(): Não possivel iniciar o Bluetooth... Tentando novamente
+[   639][I][BluetoothSerial.cpp:397] esp_spp_cb(): ESP_SPP_START_EVT
+[   653][W][izi.cpp:17] begin(): Não possivel iniciar o Bluetooth... Tentando novamente
+[   661][W][izi.cpp:17] begin(): Não possivel iniciar o Bluetooth... Tentando novamente
+ets Jun  8 2016 00:22:57
+
+rst:0xc (SW_CPU_RESET),boot:0x13 (SPI_FAST_FLASH_BOOT)
+configsip: 0, SPIWP:0xee
+clk_drv:0x00,q_drv:0x00,d_drv:0x00,cs0_drv:0x00,hd_drv:0x00,wp_drv:0x00
+mode:DIO, clock div:2
+load:0x3fff0030,len:1184
+load:0x40078000,len:13232
+load:0x40080400,len:3028
+entry 0x400805e4
+[    18][D][esp32-hal-cpu.c:244] setCpuFrequencyMhz(): PLL: 480 / 2 = 240 Mhz, APB: 80000000 Hz
+[    38][V][esp32-hal-uart.c:330] uartBegin(): UART0 baud(115200) Mode(800001c) rxPin(3) txPin(1)
+[    48][V][esp32-hal-uart.c:416] uartBegin(): UART0 not installed. Starting installation
+[    59][V][esp32-hal-uart.c:463] uartBegin(): UART0 initialization done.
+[    73][W][main.cpp:9] setup(): Inicializando Controll...
+Version: 0.0.2
+[    79][I][esp32-hal-i2c.c:75] i2cInit(): Initialising I2C Master: sda=21 scl=22 freq=100000
+[   577][I][BluetoothSerial.cpp:683] _init_bt(): device name set
+[   580][I][BluetoothSerial.cpp:263] esp_spp_cb(): ESP_SPP_INIT_EVT
+[   590][I][BluetoothSerial.cpp:270] esp_spp_cb(): ESP_SPP_INIT_EVT: slave: start
+[   590][W][izi.cpp:15] begin(): Nao foi possivel iniciar o Bluetooth...
+[   603][W][izi.cpp:17] begin(): Não possivel iniciar o Bluetooth... Tentando novamente
+[   611][W][izi.cpp:17] begin(): Não possivel iniciar o Bluetooth... Tentando novamente
+[   612][I][BluetoothSerial.cpp:571] esp_bt_gap_cb(): ESP_BT_GAP_CONFIG_EIR_DATA_EVT: stat:0 num:4
+[   628][W][izi.cpp:17] begin(): Não possivel iniciar o Bluetooth... Tentando novamente
+[   628][I][BluetoothSerial.cpp:397] esp_spp_cb(): ESP_SPP_START_EVT
+[   642][W][izi.cpp:17] begin(): Não possivel iniciar o Bluetooth... Tentando novamente
+[   650][W][izi.cpp:17] begin(): Não possivel iniciar o Bluetooth... Tentando novamente
+ets Jun  8 2016 00:22:57
+
+rst:0xc (SW_CPU_RESET),boot:0x13 (SPI_FAST_FLASH_BOOT)
+configsip: 0, SPIWP:0xee
+clk_drv:0x00,q_drv:0x00,d_drv:0x00,cs0_drv:0x00,hd_drv:0x00,wp_drv:0x00
+mode:DIO, clock div:2
+load:0x3fff0030,len:1184
+load:0x40078000,len:13232
+load:0x40080400,len:3028
+entry 0x400805e4
+[    18][D][esp32-hal-cpu.c:244] setCpuFrequencyMhz(): PLL: 480 / 2 = 240 Mhz, APB: 80000000 Hz
+[    38][V][esp32-hal-uart.c:330] uartBegin(): UART0 baud(115200) Mode(800001c) rxPin(3) txPin(1)
+[    48][V][esp32-hal-uart.c:416] uartBegin(): UART0 not installed. Starting installation
+[    59][V][esp32-hal-uart.c:463] uartBegin(): UART0 initialization done.
+[    73][W][main.cpp:9] setup(): Inicializando Controll...
+Version: 0.0.2
+[    79][I][esp32-hal-i2c.c:75] i2cInit(): Initialising I2C Master: sda=21 scl=22 freq=100000
+[   585][I][BluetoothSerial.cpp:683] _init_bt(): device name set
+[   588][I][BluetoothSerial.cpp:263] esp_spp_cb(): ESP_SPP_INIT_EVT
+[   598][I][BluetoothSerial.cpp:270] esp_spp_cb(): ESP_SPP_INIT_EVT: slave: start
+[   598][W][izi.cpp:15] begin(): Nao foi possivel iniciar o Bluetooth...
+[   611][W][izi.cpp:17] begin(): Não possivel iniciar o Bluetooth... Tentando novamente
+[   619][W][izi.cpp:17] begin(): Não possivel iniciar o Bluetooth... Tentando novamente
+[   620][I][BluetoothSerial.cpp:571] esp_bt_gap_cb(): ESP_BT_GAP_CONFIG_EIR_DATA_EVT: stat:0 num:4
+[   636][W][izi.cpp:17] begin(): Não possivel iniciar o Bluetooth... Tentando novamente
+[   636][I][BluetoothSerial.cpp:397] esp_spp_cb(): ESP_SPP_START_EVT
+[   650][W][izi.cpp:17] begin(): Não possivel iniciar o Bluetooth... Tentando novamente
+[   658][W][izi.cpp:17] begin(): Não possivel iniciar o Bluetooth... Tentando novamente
+ets Jun  8 2016 00:22:57
+
+rst:0xc (SW_CPU_RESET),boot:0x13 (SPI_FAST_FLASH_BOOT)
+configsip: 0, SPIWP:0xee
+clk_drv:0x00,q_drv:0x00,d_drv:0x00,cs0_drv:0x00,hd_drv:0x00,wp_drv:0x00
+mode:DIO, clock div:2
+load:0x3fff0030,len:1184
+load:0x40078000,len:13232
+load:0x40080400,len:3028
+entry 0x400805e4
+[    18][D][esp32-hal-cpu.c:244] setCpuFrequencyMhz(): PLL: 480 / 2 = 240 Mhz, APB: 80000000 Hz
+[    38][V][esp32-hal-uart.c:330] uartBegin(): UART0 baud(115200) Mode(800001c) rxPin(3) txPin(1)
+[    48][V][esp32-hal-uart.c:416] uartBegin(): UART0 not installed. Starting installation
+[    59][V][esp32-hal-uart.c:463] uartBegin(): UART0 initialization done.
+[    73][W][main.cpp:9] setup(): Inicializando Controll...
+Version: 0.0.2
+[    79][I][esp32-hal-i2c.c:75] i2cInit(): Initialising I2C Master: sda=21 scl=22 freq=100000
+[   587][I][BluetoothSerial.cpp:683] _init_bt(): device name set
+[   590][I][BluetoothSerial.cpp:263] esp_spp_cb(): ESP_SPP_INIT_EVT
+[   600][I][BluetoothSerial.cpp:270] esp_spp_cb(): ESP_SPP_INIT_EVT: slave: start
+[   600][W][izi.cpp:15] begin(): Nao foi possivel iniciar o Bluetooth...
+[   614][W][izi.cpp:17] begin(): Não possivel iniciar o Bluetooth... Tentando novamente
+[   622][W][izi.cpp:17] begin(): Não possivel iniciar o Bluetooth... Tentando novamente
+[   623][I][BluetoothSerial.cpp:571] esp_bt_gap_cb(): ESP_BT_GAP_CONFIG_EIR_DATA_EVT: stat:0 num:4
+[   638][W][izi.cpp:17] begin(): Não possivel iniciar o Bluetooth... Tentando novamente
+[   639][I][BluetoothSerial.cpp:397] esp_spp_cb(): ESP_SPP_START_EVT
+[   652][W][izi.cpp:17] begin(): Não possivel iniciar o Bluetooth... Tentando novamente
+[   660][W][izi.cpp:17] begin(): Não possivel iniciar o Bluetooth... Tentando novamente
+ets Jun  8 2016 00:22:57
+
+rst:0xc (SW_CPU_RESET),boot:0x13 (SPI_FAST_FLASH_BOOT)
+configsip: 0, SPIWP:0xee
+clk_drv:0x00,q_drv:0x00,d_drv:0x00,cs0_drv:0x00,hd_drv:0x00,wp_drv:0x00
+mode:DIO, clock div:2
+load:0x3fff0030,len:1184
+load:0x40078000,len:13232
+load:0x40080400,len:3028
+entry 0x400805e4
+[    18][D][esp32-hal-cpu.c:244] setCpuFrequencyMhz(): PLL: 480 / 2 = 240 Mhz, APB: 80000000 Hz
+[    38][V][esp32-hal-uart.c:330] uartBegin(): UART0 baud(115200) Mode(800001c) rxPin(3) txPin(1)
+[    48][V][esp32-hal-uart.c:416] uartBegin(): UART0 not installed. Starting installation
+[    59][V][esp32-hal-uart.c:463] uartBegin(): UART0 initialization done.
+[    73][W][main.cpp:9] setup(): Inicializando Controll...
+Version: 0.0.2
+[    79][I][esp32-hal-i2c.c:75] i2cInit(): Initialising I2C Master: sda=21 scl=22 freq=100000
+[   574][I][BluetoothSerial.cpp:683] _init_bt(): device name set
+[   577][I][BluetoothSerial.cpp:263] esp_spp_cb(): ESP_SPP_INIT_EVT
+[   586][I][BluetoothSerial.cpp:270] esp_spp_cb(): ESP_SPP_INIT_EVT: slave: start
+[   587][W][izi.cpp:15] begin(): Nao foi possivel iniciar o Bluetooth...
+[   600][W][izi.cpp:17] begin(): Não possivel iniciar o Bluetooth... Tentando novamente
+[   608][W][izi.cpp:17] begin(): Não possivel iniciar o Bluetooth... Tentando novamente
+[   609][I][BluetoothSerial.cpp:571] esp_bt_gap_cb(): ESP_BT_GAP_CONFIG_EIR_DATA_EVT: stat:0 num:4
+[   625][W][izi.cpp:17] begin(): Não possivel iniciar o Bluetooth... Tentando novamente
+[   625][I][BluetoothSerial.cpp:397] esp_spp_cb(): ESP_SPP_START_EVT
+[   639][W][izi.cpp:17] begin(): Não possivel iniciar o Bluetooth... Tentando novamente
+[   647][W][izi.cpp:17] begin(): Não possivel iniciar o Bluetooth... Tentando novamente
+ets Jun  8 2016 00:22:57
+
+rst:0xc (SW_CPU_RESET),boot:0x13 (SPI_FAST_FLASH_BOOT)
+configsip: 0, SPIWP:0xee
+clk_drv:0x00,q_drv:0x00,d_drv:0x00,cs0_drv:0x00,hd_drv:0x00,wp_drv:0x00
+mode:DIO, clock div:2
+load:0x3fff0030,len:1184
+load:0x40078000,len:13232
+load:0x40080400,len:3028
+entry 0x400805e4
+[    18][D][esp32-hal-cpu.c:244] setCpuFrequencyMhz(): PLL: 480 / 2 = 240 Mhz, APB: 80000000 Hz
+[    38][V][esp32-hal-uart.c:330] uartBegin(): UART0 baud(115200) Mode(800001c) rxPin(3) txPin(1)
+[    48][V][esp32-hal-uart.c:416] uartBegin(): UART0 not installed. Starting installation
+[    59][V][esp32-hal-uart.c:463] uartBegin(): UART0 initialization done.
+[    73][W][main.cpp:9] setup(): Inicializando Controll...
+Version: 0.0.2
+[    79][I][esp32-hal-i2c.c:75] i2cInit(): Initialising I2C Master: sda=21 scl=22 freq=100000
+[   582][I][BluetoothSerial.cpp:683] _init_bt(): device name set
+[   585][I][BluetoothSerial.cpp:263] esp_spp_cb(): ESP_SPP_INIT_EVT
+[   594][I][BluetoothSerial.cpp:270] esp_spp_cb(): ESP_SPP_INIT_EVT: slave: start
+[   595][W][izi.cpp:15] begin(): Nao foi possivel iniciar o Bluetooth...
+[   608][W][izi.cpp:17] begin(): Não possivel iniciar o Bluetooth... Tentando novamente
+[   616][W][izi.cpp:17] begin(): Não possivel iniciar o Bluetooth... Tentando novamente
+[   617][I][BluetoothSerial.cpp:571] esp_bt_gap_cb(): ESP_BT_GAP_CONFIG_EIR_DATA_EVT: stat:0 num:4
+[   633][W][izi.cpp:17] begin(): Não possivel iniciar o Bluetooth... Tentando novamente
+[   633][I][BluetoothSerial.cpp:397] esp_spp_cb(): ESP_SPP_START_EVT
+[   647][W][izi.cpp:17] begin(): Não possivel iniciar o Bluetooth... Tentando novamente
+[   655][W][izi.cpp:17] begin(): Não possivel iniciar o Bluetooth... Tentando novamente
+ets Jun  8 2016 00:22:57
+
+rst:0xc (SW_CPU_RESET),boot:0x13 (SPI_FAST_FLASH_BOOT)
+configsip: 0, SPIWP:0xee
+clk_drv:0x00,q_drv:0x00,d_drv:0x00,cs0_drv:0x00,hd_drv:0x00,wp_drv:0x00
+mode:DIO, clock div:2
+load:0x3fff0030,len:1184
+load:0x40078000,len:13232
+load:0x40080400,len:3028
+entry 0x400805e4
+[    18][D][esp32-hal-cpu.c:244] setCpuFrequencyMhz(): PLL: 480 / 2 = 240 Mhz, APB: 80000000 Hz
+[    38][V][esp32-hal-uart.c:330] uartBegin(): UART0 baud(115200) Mode(800001c) rxPin(3) txPin(1)
+[    48][V][esp32-hal-uart.c:416] uartBegin(): UART0 not installed. Starting installation
+[    59][V][esp32-hal-uart.c:463] uartBegin(): UART0 initialization done.
+[    73][W][main.cpp:9] setup(): Inicializando Controll...
+Version: 0.0.2
+[    79][I][esp32-hal-i2c.c:75] i2cInit(): Initialising I2C Master: sda=21 scl=22 freq=100000
+[   580][I][BluetoothSerial.cpp:683] _init_bt(): device name set
+[   583][I][BluetoothSerial.cpp:263] esp_spp_cb(): ESP_SPP_INIT_EVT
+[   593][I][BluetoothSerial.cpp:270] esp_spp_cb(): ESP_SPP_INIT_EVT: slave: start
+[   593][W][izi.cpp:15] begin(): Nao foi possivel iniciar o Bluetooth...
+[   607][W][izi.cpp:17] begin(): Não possivel iniciar o Bluetooth... Tentando novamente
+[   615][W][izi.cpp:17] begin(): Não possivel iniciar o Bluetooth... Tentando novamente
+[   616][I][BluetoothSerial.cpp:571] esp_bt_gap_cb(): ESP_BT_GAP_CONFIG_EIR_DATA_EVT: stat:0 num:4
+[   631][W][izi.cpp:17] begin(): Não possivel iniciar o Bluetooth... Tentando novamente
+[   632][I][BluetoothSerial.cpp:397] esp_spp_cb(): ESP_SPP_START_EVT
+[   645][W][izi.cpp:17] begin(): Não possivel iniciar o Bluetooth... Tentando novamente
+[   653][W][izi.cpp:17] begin(): Não possivel iniciar o Bluetooth... Tentando novamente
+ets Jun  8 2016 00:22:57
+
+rst:0xc (SW_CPU_RESET),boot:0x13 (SPI_FAST_FLASH_BOOT)
+configsip: 0, SPIWP:0xee
+clk_drv:0x00,q_drv:0x00,d_drv:0x00,cs0_drv:0x00,hd_drv:0x00,wp_drv:0x00
+mode:DIO, clock div:2
+load:0x3fff0030,len:1184
+load:0x40078000,len:13232
+load:0x40080400,len:3028
+entry 0x400805e4
+[    18][D][esp32-hal-cpu.c:244] setCpuFrequencyMhz(): PLL: 480 / 2 = 240 Mhz, APB: 80000000 Hz
+[    38][V][esp32-hal-uart.c:330] uartBegin(): UART0 baud(115200) Mode(800001c) rxPin(3) txPin(1)
+[    48][V][esp32-hal-uart.c:416] uartBegin(): UART0 not installed. Starting installation
+[    59][V][esp32-hal-uart.c:463] uartBegin(): UART0 initialization done.
+[    73][W][main.cpp:9] setup(): Inicializando Controll...
+Version: 0.0.2
+[    79][I][esp32-hal-i2c.c:75] i2cInit(): Initialising I2C Master: sda=21 scl=22 freq=100000
+[   577][I][BluetoothSerial.cpp:683] _init_bt(): device name set
+[   580][I][BluetoothSerial.cpp:263] esp_spp_cb(): ESP_SPP_INIT_EVT
+[   590][I][BluetoothSerial.cpp:270] esp_spp_cb(): ESP_SPP_INIT_EVT: slave: start
+[   590][W][izi.cpp:15] begin(): Nao foi possivel iniciar o Bluetooth...
+[   604][W][izi.cpp:17] begin(): Não possivel iniciar o Bluetooth... Tentando novamente
+[   612][W][izi.cpp:17] begin(): Não possivel iniciar o Bluetooth... Tentando novamente
+[   613][I][BluetoothSerial.cpp:571] esp_bt_gap_cb(): ESP_BT_GAP_CONFIG_EIR_DATA_EVT: stat:0 num:4
+[   629][W][izi.cpp:17] begin(): Não possivel iniciar o Bluetooth... Tentando novamente
+[   629][I][BluetoothSerial.cpp:397] esp_spp_cb(): ESP_SPP_START_EVT
+[   643][W][izi.cpp:17] begin(): Não possivel iniciar o Bluetooth... Tentando novamente
+[   651][W][izi.cpp:17] begin(): Não possivel iniciar o Bluetooth... Tentando novamente
+ets Jun  8 2016 00:22:57
+
+rst:0xc (SW_CPU_RESET),boot:0x13 (SPI_FAST_FLASH_BOOT)
+configsip: 0, SPIWP:0xee
+clk_drv:0x00,q_drv:0x00,d_drv:0x00,cs0_drv:0x00,hd_drv:0x00,wp_drv:0x00
+mode:DIO, clock div:2
+load:0x3fff0030,len:1184
+load:0x40078000,len:13232
+load:0x40080400,len:3028
+entry 0x400805e4
+[    18][D][esp32-hal-cpu.c:244] setCpuFrequencyMhz(): PLL: 480 / 2 = 240 Mhz, APB: 80000000 Hz
+[    38][V][esp32-hal-uart.c:330] uartBegin(): UART0 baud(115200) Mode(800001c) rxPin(3) txPin(1)
+[    48][V][esp32-hal-uart.c:416] uartBegin(): UART0 not installed. Starting installation
+[    59][V][esp32-hal-uart.c:463] uartBegin(): UART0 initialization done.
+[    73][W][main.cpp:9] setup(): Inicializando Controll...
+Version: 0.0.2
+[    79][I][esp32-hal-i2c.c:75] i2cInit(): Initialising I2C Master: sda=21 scl=22 freq=100000
+[   580][I][BluetoothSerial.cpp:683] _init_bt(): device name set
+[   583][I][BluetoothSerial.cpp:263] esp_spp_cb(): ESP_SPP_INIT_EVT
+[   593][I][BluetoothSerial.cpp:270] esp_spp_cb(): ESP_SPP_INIT_EVT: slave: start
+[   593][W][izi.cpp:15] begin(): Nao foi possivel iniciar o Bluetooth...
+[   607][W][izi.cpp:17] begin(): Não possivel iniciar o Bluetooth... Tentando novamente
+[   615][W][izi.cpp:17] begin(): Não possivel iniciar o Bluetooth... Tentando novamente
+[   616][I][BluetoothSerial.cpp:571] esp_bt_gap_cb(): ESP_BT_GAP_CONFIG_EIR_DATA_EVT: stat:0 num:4
+[   632][W][izi.cpp:17] begin(): Não possivel iniciar o Bluetooth... Tentando novamente
+[   632][I][BluetoothSerial.cpp:397] esp_spp_cb(): ESP_SPP_START_EVT
+[   646][W][izi.cpp:17] begin(): Não possivel iniciar o Bluetooth... Tentando novamente
+[   654][W][izi.cpp:17] begin(): Não possivel iniciar o Bluetooth... Tentando novamente
+ets Jun  8 2016 00:22:57
+
+rst:0xc (SW_CPU_RESET),boot:0x13 (SPI_FAST_FLASH_BOOT)
+configsip: 0, SPIWP:0xee
+clk_drv:0x00,q_drv:0x00,d_drv:0x00,cs0_drv:0x00,hd_drv:0x00,wp_drv:0x00
+mode:DIO, clock div:2
+load:0x3fff0030,len:1184
+load:0x40078000,len:13232
+load:0x40080400,len:3028
+entry 0x400805e4
+[    18][D][esp32-hal-cpu.c:244] setCpuFrequencyMhz(): PLL: 480 / 2 = 240 Mhz, APB: 80000000 Hz
+[    38][V][esp32-hal-uart.c:330] uartBegin(): UART0 baud(115200) Mode(800001c) rxPin(3) txPin(1)
+[    48][V][esp32-hal-uart.c:416] uartBegin(): UART0 not installed. Starting installation
+[    59][V][esp32-hal-uart.c:463] uartBegin(): UART0 initialization done.
+[    73][W][main.cpp:9] setup(): Inicializando Controll...
+Version: 0.0.2
+[    79][I][esp32-hal-i2c.c:75] i2cInit(): Initialising I2C Master: sda=21 scl=22 freq=100000
+[   589][I][BluetoothSerial.cpp:683] _init_bt(): device name set
+[   592][I][BluetoothSerial.cpp:263] esp_spp_cb(): ESP_SPP_INIT_EVT
+[   602][I][BluetoothSerial.cpp:270] esp_spp_cb(): ESP_SPP_INIT_EVT: slave: start
+[   602][W][izi.cpp:15] begin(): Nao foi possivel iniciar o Bluetooth...
+[   616][W][izi.cpp:17] begin(): Não possivel iniciar o Bluetooth... Tentando novamente
+[   624][W][izi.cpp:17] begin(): Não possivel iniciar o Bluetooth... Tentando novamente
+[   625][I][BluetoothSerial.cpp:571] esp_bt_gap_cb(): ESP_BT_GAP_CONFIG_EIR_DATA_EVT: stat:0 num:4
+[   641][W][izi.cpp:17] begin(): Não possivel iniciar o Bluetooth... Tentando novamente
+[   641][I][BluetoothSerial.cpp:397] esp_spp_cb(): ESP_SPP_START_EVT
+[   655][W][izi.cpp:17] begin(): Não possivel iniciar o Bluetooth... Tentando novamente
+[   663][W][izi.cpp:17] begin(): Não possivel iniciar o Bluetooth... Tentando novamente
+ets Jun  8 2016 00:22:57
+
+rst:0xc (SW_CPU_RESET),boot:0x13 (SPI_FAST_FLASH_BOOT)
+configsip: 0, SPIWP:0xee
+clk_drv:0x00,q_drv:0x00,d_drv:0x00,cs0_drv:0x00,hd_drv:0x00,wp_drv:0x00
+mode:DIO, clock div:2
+load:0x3fff0030,len:1184
+load:0x40078000,len:13232
+load:0x40080400,len:3028
+entry 0x400805e4
+[    18][D][esp32-hal-cpu.c:244] setCpuFrequencyMhz(): PLL: 480 / 2 = 240 Mhz, APB: 80000000 Hz
+[    38][V][esp32-hal-uart.c:330] uartBegin(): UART0 baud(115200) Mode(800001c) rxPin(3) txPin(1)
+[    48][V][esp32-hal-uart.c:416] uartBegin(): UART0 not installed. Starting installation
+[    59][V][esp32-hal-uart.c:463] uartBegin(): UART0 initialization done.
+[    73][W][main.cpp:9] setup(): Inicializando Controll...
+Version: 0.0.2
+[    79][I][esp32-hal-i2c.c:75] i2cInit(): Initialising I2C Master: sda=21 scl=22 freq=100000
+[   583][I][BluetoothSerial.cpp:683] _init_bt(): device name set
+[   586][I][BluetoothSerial.cpp:263] esp_spp_cb(): ESP_SPP_INIT_EVT
+[   595][I][BluetoothSerial.cpp:270] esp_spp_cb(): ESP_SPP_INIT_EVT: slave: start
+[   596][W][izi.cpp:15] begin(): Nao foi possivel iniciar o Bluetooth...
+[   609][W][izi.cpp:17] begin(): Não possivel iniciar o Bluetooth... Tentando novamente
+[   617][W][izi.cpp:17] begin(): Não possivel iniciar o Bluetooth... Tentando novamente
+[   618][I][BluetoothSerial.cpp:571] esp_bt_gap_cb(): ESP_BT_GAP_CONFIG_EIR_DATA_EVT: stat:0 num:4
+[   634][W][izi.cpp:17] begin(): Não possivel iniciar o Bluetooth... Tentando novamente
+[   634][I][BluetoothSerial.cpp:397] esp_spp_cb(): ESP_SPP_START_EVT
+[   648][W][izi.cpp:17] begin(): Não possivel iniciar o Bluetooth... Tentando novamente
+[   656][W][izi.cpp:17] begin(): Não possivel iniciar o Bluetooth... Tentando novamente
+ets Jun  8 2016 00:22:57
+
+rst:0xc (SW_CPU_RESET),boot:0x13 (SPI_FAST_FLASH_BOOT)
+configsip: 0, SPIWP:0xee
+clk_drv:0x00,q_drv:0x00,d_drv:0x00,cs0_drv:0x00,hd_drv:0x00,wp_drv:0x00
+mode:DIO, clock div:2
+load:0x3fff0030,len:1184
+load:0x40078000,len:13232
+load:0x40080400,len:3028
+entry 0x400805e4
+[    18][D][esp32-hal-cpu.c:244] setCpuFrequencyMhz(): PLL: 480 / 2 = 240 Mhz, APB: 80000000 Hz
+[    38][V][esp32-hal-uart.c:330] uartBegin(): UART0 baud(115200) Mode(800001c) rxPin(3) txPin(1)
+[    48][V][esp32-hal-uart.c:416] uartBegin(): UART0 not installed. Starting installation
+[    59][V][esp32-hal-uart.c:463] uartBegin(): UART0 initialization done.
+[    73][W][main.cpp:9] setup(): Inicializando Controll...
+Version: 0.0.2
+[    79][I][esp32-hal-i2c.c:75] i2cInit(): Initialising I2C Master: sda=21 scl=22 freq=100000
+[   585][I][BluetoothSerial.cpp:683] _init_bt(): device name set
+[   588][I][BluetoothSerial.cpp:263] esp_spp_cb(): ESP_SPP_INIT_EVT
+[   597][I][BluetoothSerial.cpp:270] esp_spp_cb(): ESP_SPP_INIT_EVT: slave: start
+[   598][W][izi.cpp:15] begin(): Nao foi possivel iniciar o Bluetooth...
+[   611][W][izi.cpp:17] begin(): Não possivel iniciar o Bluetooth... Tentando novamente
+[   619][W][izi.cpp:17] begin(): Não possivel iniciar o Bluetooth... Tentando novamente
+[   620][I][BluetoothSerial.cpp:571] esp_bt_gap_cb(): ESP_BT_GAP_CONFIG_EIR_DATA_EVT: stat:0 num:4
+[   636][W][izi.cpp:17] begin(): Não possivel iniciar o Bluetooth... Tentando novamente
+[   636][I][BluetoothSerial.cpp:397] esp_spp_cb(): ESP_SPP_START_EVT
+[   650][W][izi.cpp:17] begin(): Não possivel iniciar o Bluetooth... Tentando novamente
+[   658][W][izi.cpp:17] begin(): Não possivel iniciar o Bluetooth... Tentando novamente
+ets Jun  8 2016 00:22:57
+
+rst:0xc (SW_CPU_RESET),boot:0x13 (SPI_FAST_FLASH_BOOT)
+configsip: 0, SPIWP:0xee
+clk_drv:0x00,q_drv:0x00,d_drv:0x00,cs0_drv:0x00,hd_drv:0x00,wp_drv:0x00
+mode:DIO, clock div:2
+load:0x3fff0030,len:1184
+load:0x40078000,len:13232
+load:0x40080400,len:3028
+entry 0x400805e4
+[    18][D][esp32-hal-cpu.c:244] setCpuFrequencyMhz(): PLL: 480 / 2 = 240 Mhz, APB: 80000000 Hz
+[    38][V][esp32-hal-uart.c:330] uartBegin(): UART0 baud(115200) Mode(800001c) rxPin(3) txPin(1)
+[    48][V][esp32-hal-uart.c:416] uartBegin(): UART0 not installed. Starting installation
+[    59][V][esp32-hal-uart.c:463] uartBegin(): UART0 initialization done.
+[    73][W][main.cpp:9] setup(): Inicializando Controll...
+Version: 0.0.2
+[    79][I][esp32-hal-i2c.c:75] i2cInit(): Initialising I2C Master: sda=21 scl=22 freq=100000
+[   586][I][BluetoothSerial.cpp:683] _init_bt(): device name set
+[   589][I][BluetoothSerial.cpp:263] esp_spp_cb(): ESP_SPP_INIT_EVT
+[   598][I][BluetoothSerial.cpp:270] esp_spp_cb(): ESP_SPP_INIT_EVT: slave: start
+[   599][W][izi.cpp:15] begin(): Nao foi possivel iniciar o Bluetooth...
+[   612][W][izi.cpp:17] begin(): Não possivel iniciar o Bluetooth... Tentando novamente
+[   620][W][izi.cpp:17] begin(): Não possivel iniciar o Bluetooth... Tentando novamente
+[   621][I][BluetoothSerial.cpp:571] esp_bt_gap_cb(): ESP_BT_GAP_CONFIG_EIR_DATA_EVT: stat:0 num:4
+[   637][W][izi.cpp:17] begin(): Não possivel iniciar o Bluetooth... Tentando novamente
+[   637][I][BluetoothSerial.cpp:397] esp_spp_cb(): ESP_SPP_START_EVT
+[   651][W][izi.cpp:17] begin(): Não possivel iniciar o Bluetooth... Tentando novamente
+[   659][W][izi.cpp:17] begin(): Não possivel iniciar o Bluetooth... Tentando novamente
+ets Jun  8 2016 00:22:57
+
+rst:0xc (SW_CPU_RESET),boot:0x13 (SPI_FAST_FLASH_BOOT)
+configsip: 0, SPIWP:0xee
+clk_drv:0x00,q_drv:0x00,d_drv:0x00,cs0_drv:0x00,hd_drv:0x00,wp_drv:0x00
+mode:DIO, clock div:2
+load:0x3fff0030,len:1184
+load:0x40078000,len:13232
+load:0x40080400,len:3028
+entry 0x400805e4
+[    18][D][esp32-hal-cpu.c:244] setCpuFrequencyMhz(): PLL: 480 / 2 = 240 Mhz, APB: 80000000 Hz
+[    38][V][esp32-hal-uart.c:330] uartBegin(): UART0 baud(115200) Mode(800001c) rxPin(3) txPin(1)
+[    48][V][esp32-hal-uart.c:416] uartBegin(): UART0 not installed. Starting installation
+[    59][V][esp32-hal-uart.c:463] uartBegin(): UART0 initialization done.
+[    73][W][main.cpp:9] setup(): Inicializando Controll...
+Version: 0.0.2
+[    79][I][esp32-hal-i2c.c:75] i2cInit(): Initialising I2C Master: sda=21 scl=22 freq=100000
+[   580][I][BluetoothSerial.cpp:683] _init_bt(): device name set
+[   583][I][BluetoothSerial.cpp:263] esp_spp_cb(): ESP_SPP_INIT_EVT
+[   593][I][BluetoothSerial.cpp:270] esp_spp_cb(): ESP_SPP_INIT_EVT: slave: start
+[   593][W][izi.cpp:15] begin(): Nao foi possivel iniciar o Bluetooth...
+[   607][W][izi.cpp:17] begin(): Não possivel iniciar o Bluetooth... Tentando novamente
+[   615][W][izi.cpp:17] begin(): Não possivel iniciar o Bluetooth... Tentando novamente
+[   616][I][BluetoothSerial.cpp:571] esp_bt_gap_cb(): ESP_BT_GAP_CONFIG_EIR_DATA_EVT: stat:0 num:4
+[   632][W][izi.cpp:17] begin(): Não possivel iniciar o Bluetooth... Tentando novamente
+[   632][I][BluetoothSerial.cpp:397] esp_spp_cb(): ESP_SPP_START_EVT
+[   646][W][izi.cpp:17] begin(): Não possivel iniciar o Bluetooth... Tentando novamente
+[   654][W][izi.cpp:17] begin(): Não possivel iniciar o Bluetooth... Tentando novamente
+ets Jun  8 2016 00:22:57
+
+rst:0xc (SW_CPU_RESET),boot:0x13 (SPI_FAST_FLASH_BOOT)
+configsip: 0, SPIWP:0xee
+clk_drv:0x00,q_drv:0x00,d_drv:0x00,cs0_drv:0x00,hd_drv:0x00,wp_drv:0x00
+mode:DIO, clock div:2
+load:0x3fff0030,len:1184
+load:0x40078000,len:13232
+load:0x40080400,len:3028
+entry 0x400805e4
+[    18][D][esp32-hal-cpu.c:244] setCpuFrequencyMhz(): PLL: 480 / 2 = 240 Mhz, APB: 80000000 Hz
+[    38][V][esp32-hal-uart.c:330] uartBegin(): UART0 baud(115200) Mode(800001c) rxPin(3) txPin(1)
+[    48][V][esp32-hal-uart.c:416] uartBegin(): UART0 not installed. Starting installation
+[    59][V][esp32-hal-uart.c:463] uartBegin(): UART0 initialization done.
+[    73][W][main.cpp:9] setup(): Inicializando Controll...
+Version: 0.0.2
+[    79][I][esp32-hal-i2c.c:75] i2cInit(): Initialising I2C Master: sda=21 scl=22 freq=100000
+[   590][I][BluetoothSerial.cpp:683] _init_bt(): device name set
+[   593][I][BluetoothSerial.cpp:263] esp_spp_cb(): ESP_SPP_INIT_EVT
+[   603][I][BluetoothSerial.cpp:270] esp_spp_cb(): ESP_SPP_INIT_EVT: slave: start
+[   603][W][izi.cpp:15] begin(): Nao foi possivel iniciar o Bluetooth...
+[   616][W][izi.cpp:17] begin(): Não possivel iniciar o Bluetooth... Tentando novamente
+[   624][W][izi.cpp:17] begin(): Não possivel iniciar o Bluetooth... Tentando novamente
+[   625][I][BluetoothSerial.cpp:571] esp_bt_gap_cb(): ESP_BT_GAP_CONFIG_EIR_DATA_EVT: stat:0 num:4
+[   641][W][izi.cpp:17] begin(): Não possivel iniciar o Bluetooth... Tentando novamente
+[   641][I][BluetoothSerial.cpp:397] esp_spp_cb(): ESP_SPP_START_EVT
+[   655][W][izi.cpp:17] begin(): Não possivel iniciar o Bluetooth... Tentando novamente
+[   663][W][izi.cpp:17] begin(): Não possivel iniciar o Bluetooth... Tentando novamente
+ets Jun  8 2016 00:22:57
+
+rst:0xc (SW_CPU_RESET),boot:0x13 (SPI_FAST_FLASH_BOOT)
+configsip: 0, SPIWP:0xee
+clk_drv:0x00,q_drv:0x00,d_drv:0x00,cs0_drv:0x00,hd_drv:0x00,wp_drv:0x00
+mode:DIO, clock div:2
+load:0x3fff0030,len:1184
+load:0x40078000,len:13232
+load:0x40080400,len:3028
+entry 0x400805e4
+[    18][D][esp32-hal-cpu.c:244] setCpuFrequencyMhz(): PLL: 480 / 2 = 240 Mhz, APB: 80000000 Hz
+[    38][V][esp32-hal-uart.c:330] uartBegin(): UART0 baud(115200) Mode(800001c) rxPin(3) txPin(1)
+[    48][V][esp32-hal-uart.c:416] uartBegin(): UART0 not installed. Starting installation
+[    59][V][esp32-hal-uart.c:463] uartBegin(): UART0 initialization done.
+[    73][W][main.cpp:9] setup(): Inicializando Controll...
+Version: 0.0.2
+[    79][I][esp32-hal-i2c.c:75] i2cInit(): Initialising I2C Master: sda=21 scl=22 freq=100000
