@@ -16,10 +16,14 @@ O sistema utiliza um microcontrolador ESP32 para gerenciar a comunicação via B
 - **ESP32**: Gerencia comunicação e processamento de dados.
 - **VESC 6.9**: Controlador de motor BLDC.
 - **Display OLED (128x64 px)**: Exibe status do sistema e informações da bateria.
-- **Encoder Rotativo KY-040**: Controla velocidade e paradas.
+- **Encoder Rotativo KY-040**: Responsavel por controlar aceleração e paradas.
 - **Módulo de Emergência**: Garante desligamento seguro.
 
 ## Estrutura do Código
+
+### Izi
+
+### VescUART LIB
 - `VescUart.cpp`: Implementa a comunicação UART com o controlador VESC.
 - `datatypes.h`: Define tipos e estruturas utilizados no firmware VESC.
 
