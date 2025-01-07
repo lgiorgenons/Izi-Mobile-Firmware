@@ -1,37 +1,87 @@
-# Controle de Sistema Auxiliar de Cadeira de Rodas
+# **Controle de Sistema Auxiliar de Cadeira de Rodas Motorizada**
 
-## Descrição do Projeto
-Este projeto implementa um sistema auxiliar para cadeiras de rodas motorizadas utilizando o controlador VESC 6.9. Ele oferece controle preciso do motor BLDC, monitoramento em tempo real da bateria, e recursos de segurança avançados.
+Este projeto implementa um sistema de controle remoto para cadeiras de rodas motorizadas, fornecendo uma experiência de mobilidade segura, eficiente e inovadora. Ele utiliza o controlador VESC 6.9 para gerenciar motores BLDC e integra o microcontrolador ESP32 para comunicação, monitoramento em tempo real e funcionalidades avançadas de segurança.
 
-O sistema utiliza um microcontrolador ESP32 para gerenciar a comunicação via Bluetooth e USB, conectando o controle remoto ao VESC e à BMS (Battery Management System). Além disso, conta com um módulo de emergência para desligamento rápido em situações críticas.
+---
 
-## Funcionalidades Principais
-- **Conexão via Bluetooth e USB**: Comunicação flexível com o VESC e BMS.
-- **Monitoramento de Bateria**: Exibição de tensão, corrente e temperatura da bateria no display OLED.
-- **Modos de Operação**: Configurações internas e externas, com limite de velocidade baseado no ambiente.
-- **Controle de Velocidade**: Encoder rotativo KY-040 para ajustes dinâmicos.
-- **Segurança Avançada**: Módulo de emergência e proteção da bateria contra sobrecarga.
+## **Índice**
+1. [Descrição Geral](#descrição-geral)
+2. [Funcionalidades](#funcionalidades)
+3. [Arquitetura do Projeto](#arquitetura-do-projeto)
+4. [Instruções de Instalação](#instruções-de-instalação)
+5. [Como Usar](#como-usar)
+6. [Estrutura do Código](#estrutura-do-código)
+7. [Componentes e Materiais Utilizados](#componentes-e-materiais-utilizados)
+8. [Melhorias Futuras](#melhorias-futuras)
+9. [Licença](#licença)
 
-## Componentes Principais
-- **ESP32**: Gerencia comunicação e processamento de dados.
-- **VESC 6.9**: Controlador de motor BLDC.
-- **Display OLED (128x64 px)**: Exibe status do sistema e informações da bateria.
-- **Encoder Rotativo KY-040**: Responsavel por controlar aceleração e paradas.
-- **Módulo de Emergência**: Garante desligamento seguro.
+---
 
-## Estrutura do Código
+## **Descrição Geral**
 
-### Izi
+O sistema é composto por hardware e software que trabalham de forma integrada para controlar o motor BLDC, monitorar a bateria de potência e fornecer feedback contínuo ao usuário. Ele permite controle por Bluetooth e USB, exibindo informações no display OLED, como:
+- Nível de bateria.
+- Velocidade atual.
+- Modo de operação ativo.
+- Status de eficiência operacional.
 
-### VescUART LIB
-- `VescUart.cpp`: Implementa a comunicação UART com o controlador VESC.
-- `datatypes.h`: Define tipos e estruturas utilizados no firmware VESC.
+Além disso, inclui um **módulo de emergência** que pode desligar rapidamente o sistema em situações críticas.
 
-### Interface
+---
 
-### Comunicação
+## **Funcionalidades**
 
-## Instalação
+1. **Controle de Velocidade Dinâmico**:
+   - Ajuste de velocidade via encoder rotativo.
+   - Parada segura ao pressionar o encoder.
+
+2. **Modos de Operação Inteligentes**:
+   - **Modo Inoperante**: Sistema desativado.
+   - **Modo Interno**: Limite de velocidade para ambientes fechados.
+   - **Modo Externo**: Potência e velocidade aumentadas para terrenos externos.
+
+3. **Monitoramento de Bateria em Tempo Real**:
+   - Dados detalhados de carga, tensão, corrente e temperatura da bateria via Bluetooth.
+
+4. **Conexão Flexível**:
+   - Comunicação via Bluetooth ou USB com fallback automático.
+
+5. **Feedback Visual e Sonoro**:
+   - Display OLED para informações do sistema.
+   - Alertas sonoros para emparelhamento, ajustes e falhas.
+
+6. **Segurança Avançada**:
+   - Módulo de emergência para desligamento instantâneo.
+   - Proteções contra sobrecarga e superaquecimento.
+
+---
+
+## **Arquitetura do Projeto**
+
+### **Hardware**
+- **Controlador VESC 6.9**: Gerencia torque, corrente e velocidade do motor BLDC.
+- **ESP32 DEVKITV1**: Microcontrolador para processamento e comunicação.
+- **Display OLED (128x64 px)**: Interface visual para o usuário.
+- **Encoder Rotativo KY-040**: Controle de velocidade.
+- **Módulo de Emergência**: Desliga o sistema em situações críticas.
+- **BMS**: Monitora a bateria de potência.
+
+### **Software**
+- **Firmware ESP32**: Implementa a comunicação entre VESC, BMS e controle remoto.
+- **Bibliotecas Importantes**:
+  - `VescUart.cpp`: Gerencia a comunicação UART com o VESC.
+  - `datatypes.h`: Define tipos e estruturas utilizadas pelo firmware.
+  - 'u82g': Responsável pelo gerenciamento do display e todas sua responsividade
+---
+
+## **Instruções de Instalação**
+
+### **Pré-requisitos**
+- Arduino IDE ou PlatformIO instalado.
+- Biblioteca `esp32` adicionada ao ambiente.
+- Hardware configurado conforme esquemático.
+
+### **Passos**
 1. Clone este repositório:
    ```bash
    git clone https://github.com/usuario/projeto-cadeira-rodas.git
