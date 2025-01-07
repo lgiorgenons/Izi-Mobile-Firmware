@@ -71,7 +71,7 @@ Além disso, inclui um **módulo de emergência** que pode desligar rapidamente 
 - **Bibliotecas Importantes**:
   - `VescUart.cpp`: Gerencia a comunicação UART com o VESC.
   - `datatypes.h`: Define tipos e estruturas utilizadas pelo firmware.
-  - 'u82g': Responsável pelo gerenciamento do display e todas sua responsividade
+  - `u82g`: Responsável pelo gerenciamento do display e todas sua responsividade
 ---
 
 ## **Instruções de Instalação**
