@@ -3,7 +3,7 @@
   "author": "Anonymous maker",
   "editor": "wokwi",
   "parts": [
-    { "type": "board-esp32-c3-devkitm-1", "id": "esp", "top": -29.1, "left": 44.22, "attrs": {} },
+    { "type": "board-esp32-devkit-c-v4", "id": "esp", "top": -29.1, "left": 44.22, "attrs": {} },
     {
       "type": "board-ssd1306",
       "id": "oled1",
@@ -16,17 +16,19 @@
   "connections": [
     [ "esp:TX", "$serialMonitor:RX", "", [] ],
     [ "esp:RX", "$serialMonitor:TX", "", [] ],
-    [ "oled1:GND", "esp:GND.1", "black", [ "v-33.22", "h94.21", "v49.8" ] ],
     [ "oled1:VCC", "esp:3V3.1", "red", [ "v-25.91", "h76.89", "v7.77" ] ],
     [ "oled1:SCL", "esp:9", "green", [ "v-18.74", "h59.67", "v190.1", "h141.68", "v-111.19" ] ],
     [ "oled1:SDA", "esp:8", "green", [ "v-10.37", "h42.67", "v187.71", "h153.64", "v-108.2" ] ],
     [ "encoder1:VCC", "esp:3V3.1", "red", [ "h67.2", "v-172.4" ] ],
-    [
-      "encoder1:GND",
-      "esp:GND.1",
-      "black",
-      [ "h19.2", "v-56.8", "h-96", "v-192", "h144", "v57.6" ]
-    ]
+    [ "oled1:VCC", "esp:3V3", "red", [ "v-19.2", "h86.55" ] ],
+    [ "oled1:GND", "esp:GND.2", "black", [ "v-9.6", "h0", "v-38.4", "h230.4", "v76.8" ] ],
+    [ "oled1:SDA", "esp:21", "green", [ "v-28.8", "h211.27", "v105.6" ] ],
+    [ "esp:22", "oled1:SCL", "green", [ "h37.42", "v-86.1", "h-230.4" ] ],
+    [ "esp:3V3", "encoder1:VCC", "green", [ "h-39.23", "v182.3" ] ],
+    [ "encoder1:GND", "esp:GND.2", "black", [ "h201.6", "v-191.2", "h-9.6" ] ],
+    [ "esp:25", "encoder1:CLK", "green", [ "v0.3", "h-77.63", "v76.8" ] ],
+    [ "encoder1:DT", "esp:26", "green", [ "h19.2", "v-76.7" ] ],
+    [ "esp:27", "encoder1:SW", "green", [ "h-58.43", "v77.1" ] ]
   ],
   "dependencies": {}
 }

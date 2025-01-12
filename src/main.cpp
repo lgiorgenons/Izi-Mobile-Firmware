@@ -7,11 +7,15 @@ Izi::Controll controll;
 
 Serial.begin(115200);
 log_w("Inicializando Controll...");
-Serial.printf("Version: %s\n", VERSION);
+Serial.printf("Version: %s\n", IZI_FW_VERSION);
 
 controll.begin();
 
 
+log_w("Controll iniciado!");
+
 }
 
-void loop(){}
+void loop(){
+
+}

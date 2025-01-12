@@ -22,19 +22,25 @@ namespace Izi {
             void setDrivingMode(const std::string& mode);
             void setVelocity(float speed);
             void setBLEStatus(const char* status);
+            
+            bool setDisplay(uint8_t velocidade, uint8_t bateria, const char* modo);
+            void drawPanel();
+
+            U8G2_SH1106_128X64_NONAME_F_HW_I2C u8g2;
+
 
         private:
-            uint8_t kilometers;
-            float velocity;
+            uint8_t velocity;
+
+            int8_t km_h;
+            uint8_t bat;
+            const char* mode;
 
             // Métodos privados
-            void drawPanel();
-            void displayData()
-            ;
-
-            // Atributos privados
-            U8G2_SH1106_128X64_NONAME_F_HW_I2C u8g2;
             
+            void displayData();
+
+            // Atributos privados            
             String drivingMode;
             String bleStatus; 
 

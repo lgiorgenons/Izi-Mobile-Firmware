@@ -1,17 +1,17 @@
 #include "Encoder.hpp"
 
 // Inicializa o ponteiro estático
-Encoder* Encoder::instance = nullptr;
+Encoder* Encoder::Encoder::instance = nullptr;
 
 // Construtor
-Encoder::Encoder(uint8_t pinA, uint8_t pinB, const String& mode)
+Encoder::Encoder::Encoder(uint8_t pinA, uint8_t pinB, const String& mode)
     : pinA(pinA), pinB(pinB), mode(mode), encoder_counter(0), chA(0), chB(0), lut_index(0), dir(0), prev_position(0) {
     // Atribui a instância estática
     instance = this;
 }
 
 // Função para preencher as lookup tables
-void Encoder::fillLookupTable() {
+void Encoder::Encoder::fillLookupTable() {
     // Lookup table para X2
     this->x2qei_lut[0]  = -2; x2qei_lut[1]  =  0; x2qei_lut[2]  =  0; x2qei_lut[3]  = -1;
     this->x2qei_lut[4]  =  0; x2qei_lut[5]  = +2; x2qei_lut[6]  = +1; x2qei_lut[7]  =  0;
@@ -46,28 +46,50 @@ void Encoder::begin() {
 
     this->fillLookupTable();
     this->initIndex();
+    
 
     if (mode == "x1" || mode == "X1") {
         attachInterrupt(digitalPinToInterrupt(pinA), isrReadEncoderX1, RISING);
-    } else if (mode == "x2" || mode == "X2") {
+
+        return;
+    } 
+    if (mode == "x2" || mode == "X2") {
         attachInterrupt(digitalPinToInterrupt(pinA), isrReadEncoderX2, CHANGE);
-    } else if (mode == "x4" || mode == "X4") {
+
+        return;
+    } 
+    if (mode == "x4" || mode == "X4") {
         attachInterrupt(digitalPinToInterrupt(pinA), isrReadEncoderX4, CHANGE);
         attachInterrupt(digitalPinToInterrupt(pinB), isrReadEncoderX4, CHANGE);
+
+        return;
     }
 }
-
 
 // Inicializa as interrupções com base no modo
 void Encoder::initInterrupts() {
     if (mode == "x1" || mode == "X1") {
         attachInterrupt(digitalPinToInterrupt(pinA), Encoder::isrReadEncoderX1, RISING);
-    } else if (mode == "x2" || mode == "X2") {
+        log_d("Iniciado Encoder com multiplicador x1");
+
+        return;
+    } 
+    
+    if (mode == "x2" || mode == "X2") {
         attachInterrupt(digitalPinToInterrupt(pinA), Encoder::isrReadEncoderX2, CHANGE);
-    } else if (mode == "x4" || mode == "X4") {
+        log_d("Iniciado Encoder com multiplicador x1");
+
+        return;
+    } 
+    if (mode == "x4" || mode == "X4") {
         attachInterrupt(digitalPinToInterrupt(pinA), Encoder::isrReadEncoderX4, CHANGE);
         attachInterrupt(digitalPinToInterrupt(pinB), Encoder::isrReadEncoderX4, CHANGE);
+        log_d("Iniciado Encoder com multiplicador x1");
+
+        return;
     }
+
+    log_n("Nao foi possivel inicializar o encoder");
 }
 
 // Função ISR para modo X1
@@ -89,27 +111,76 @@ void Encoder::isrReadEncoderX4() {
 void Encoder::isrReadEncoderX1Instance() {
     chA = (uint8_t)(REG_READ(GPIO_IN_REG) >> pinA) & 0x1;
     chB = (uint8_t)(REG_READ(GPIO_IN_REG) >> pinB) & 0x1;
-    encoder_counter += (chA != chB) ? 1 : -1;
+    this->encoder_counter += (chA != chB) ? 1 : -1;
 }
 
 void Encoder::isrReadEncoderX2Instance() {
     chA = (uint8_t)(REG_READ(GPIO_IN_REG) >> pinA) & 0x1;
     chB = (uint8_t)(REG_READ(GPIO_IN_REG) >> pinB) & 0x1;
     lut_index |= (chA << 1) | chB;
-    encoder_counter += x2qei_lut[lut_index];
+    this->encoder_counter += x2qei_lut[lut_index];
     lut_index = ((lut_index << 2) & 0b00001100);
 }
 
 void Encoder::isrReadEncoderX4Instance() {
+
+    if (this->encoder_counter > 1024) {
+        log_w("Encoder overflow");
+
+        if (this->encoder_counter > 0) {
+            chA = (uint8_t)(REG_READ(GPIO_IN_REG) >> pinA) & 0x1;
+            chB = (uint8_t)(REG_READ(GPIO_IN_REG) >> pinB) & 0x1;
+            dir = (chA != chB) ? 0b00000000 : 0b00010000;
+
+            // Faz o decremento
+            lut_index |= dir | (chA << 1) | chB;
+            this->encoder_counter -= x4qei_lut[lut_index];
+            lut_index = ((lut_index << 2) & 0b00001100);
+        }
+
+        return;
+    }
+
     chA = (uint8_t)(REG_READ(GPIO_IN_REG) >> pinA) & 0x1;
     chB = (uint8_t)(REG_READ(GPIO_IN_REG) >> pinB) & 0x1;
     dir = (chA != chB) ? 0b00000000 : 0b00010000;
     lut_index |= dir | (chA << 1) | chB;
-    encoder_counter += x4qei_lut[lut_index];
+    this->encoder_counter += x4qei_lut[lut_index];
     lut_index = ((lut_index << 2) & 0b00001100);
 }
 
 // Obtém a posição atual
 int32_t Encoder::getPosition() {
-    return encoder_counter;
+    return this->encoder_counter;
+} 
+
+uint32_t Encoder::getKM() {
+    // Definir os valores máximos
+    uint16_t valorMax = 128;
+    int16_t velocidadeMax = 5;  // 30 km/h
+    int32_t velocidadeResultado;
+
+    log_w("setpoint %d", this->encoder_counter);
+    // Aplicar a regra de 3 para calcular a velocidade
+
+    if (this->encoder_counter >= MAX_SET_POINT_ENCODER ) {
+        
+
+        log_w("setpoint %d", this->encoder_counter);
+        // this->encoder_counter = MAX_SET_POINT_ENCODER;
+    }
+
+    if (this->encoder_counter <= MIN_SET_POINT_ENCODER) this->encoder_counter = MIN_SET_POINT_ENCODER;
+    
+    
+    
+
+    velocidadeResultado = (this->encoder_counter * velocidadeMax) / valorMax;
+
+    return velocidadeResultado;
 }
+
+void Encoder::getReadEncoder() {
+
+    log_w("get mode encoder %s", this->mode);
+ }

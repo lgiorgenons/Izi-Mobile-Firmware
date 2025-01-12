@@ -1,0 +1,604 @@
+/*===================================================================================
+  This sketch supports the wireless LCD dashboard for my electric skateboard.
+  The ESP32 communicates with the VESC speed controller (one of the two in the
+  case of the 4-wheeler) via it's UART  port.  The serial communication takes
+  place over a pair of bluetooth HC-05  modules. 
+
+  I'm also logging data to a MicroSD card logger via the ESP32 UART2 (as Serial2)
+
+  NOTE: to read data from the VESC UART, you must first enable the UART port
+        using the BLDC tool (assuming you're using the old firmware that
+        works with the BLDC tool).  This is done on the "App Configuration/General"
+        tab.  I select "PPM and UART" since I'm using PPM to control the throttle.
+        Then you need to go to the "App Configuration/UART" tab and set the baud
+        rate to 9600.
+
+  NOTE: It looks like there may be an issue with VESC firmware 3.40 and later.
+        Apparently "packet length of COMM_GET_VALUES exceeds Arduino buffer size."
+        See here for details:  
+        https://www.electric-skateboard.builders/t/escape-cant-get-it-talking-to-arduino-via-uart/68630
+
+  I'm currently using an "ESP-32S ESP32 NodeMCU" in the hand controller.
+  I used to use an Arduino Pro-Mini (Atmega328P 5V/16Mhz).
+     To program the pro-mini you need to plug it into the laptop USB port via the
+     FTDI USB <-> 5V/3.3V TTL serial converter.  Remember to set the converter to 5V.
+     And remember to remove the Bluetooth serial connection from the Arduino while
+     programming.  The red wire goes closer to the edge of the dashboard enclosure.
+
+  ESP32 pins:
+  -----------
+  5V        -> 5V from the LM7805
+  | GND     -> GND from the LM7805
+  | TX      -> HC-05 RX (NO LONGER USED - since I'm now using the ESP32 on-board bluetooth module)
+  | RX      -> HC-05 TX (NO LONGER USED - since I'm now using the ESP32 on-board bluetooth module)
+  | GPIO21  -> SDA on LCD display
+  | GPIO22  -> SCL on LCD display
+  EN        -> Anode of 10uF electrolytic cap
+ GPIO17/TX2 -> RX on MicroSD card logger
+  GPIO34    -> Middle of voltage divider on hand controller voltage (to read hand controller battery level)
+              (4.2V max from the hand controller's 18650 battery.  2-wheeler controller uses 4.63K and 9.82K resistors to make a 0.3204 voltage divider. 
+              This gives a max voltage of 2.69V for a 0-3.3V A2D.  NOTE: the ESP32 A2D is not very linear at either extreme.
+              The 4-wheeler controller uses 4.65K and 9.96K resistors to make a 0.3183 voltage divider
+
+An DC-DC boost converter is used inside the hand controller to bring the voltage from the 18650 up to 5V for the dashboard.  Three wires go from the hand controller
+to the dashboard: 5V, GND, and divided battery voltage.  The divided voltage has to remain below about 3.1V (the linear range of the ESP32 ADC).
+The 5V and GND will power:
+- The ESP32
+- The LCD display
+- The MicroSD card logger
+   
+  VESC UART pinout (starting from capacitor side)
+  -----------------------------------------------
+  - 5V 
+  - 3.3V
+  - GND
+  - ADC 
+  - TX
+  - RX
+  - ADC2
+
+  The VESC serial port RX and TX pins are 3.3V.  This matches the RX and TX pins
+  of the HC-05 bluetooth module.  But the bluetooth module VCC is 5V.
+  The wiring between the VESC UART and the Bluetooth module is as follows:
+  
+  VESC UART      Bluetooth module
+     5V  ---------  5V
+     GND ---------  GND
+     TX  ---------  RX
+     RX  ---------  TX
+
+  NOTE: I'm currently getting +5V and GND from the RX to power the bluetooth module on the board.
+        I think it's critical that the RX get its power from the same VESC that I'm 
+        reading UART data from.
+        It might be better to power the bluetooth module from the UART port directly.
+
+Parts of this were initially based on a program written by Sascha Ederer (roboshack.wordpress.com),
+which was based on the code of jenkie (pedelecforum.de), Andreas Chaitidis 
+(Andreas.Chaitidis@gmail.com) and Benjamin Vedder (www.vedder.se).
+
+-3- TO-DO:
+- Fully characterize Hobbyking Lipo batteries (including current compensation)
+===================================================================================*/
+
+#include "config.h"
+#include <Arduino.h>
+#include "datatypes.h"
+#include "vesc_uart.h"
+#include <SPI.h>
+#include <Wire.h>
+#include <LiquidCrystal_I2C.h>
+#include "BluetoothSerial.h"
+
+#define SPIM08HP (1)
+#define LIPO     (2)
+#define TWO_WHEEL (1)
+#define FOUR_WHEEL (2)
+
+// Values of the voltage dividers in each remote.
+// These are used to measure the remaining capacity of the remote batteries
+// 2-wheel divider:  Nominally: 4.65K / 9.86K  => divider .6795 (nominally 4.7K and 10K); but 0.6526 as measured
+// 4-wheel divider: .655 as measured
+#define TWO_WHEEL_DIVIDER  (0.6526)
+#define FOUR_WHEEL_DIVIDER (0.655)
+
+
+void log_data(void);
+double interp(double x1, double x2, double x3, double y1, double y3);
+float compute_battery_remaining_lipo(int num_cells, float volts);
+double get_spim08hp_remaining(int num_cells, double volts, double current);
+double get_18650_remaining(int num_cells, double volts);
+int get_vesc_data(float *voltage, float *current, float *rpm);
+void IRAM_ATTR button1_isr();
+double ReadVoltage(byte pin);
+void bt_connect(void);
+
+LiquidCrystal_I2C lcd(0x27, 16, 2);
+
+struct mc_values       VescMeasuredValues_218;  // Supports FW 2.18
+struct bldcMeasure_340 VescMeasuredValues_340;  // Supports FW 3.40
+struct bldcMeasure_51  VescMeasuredValues_51;   // Supports FW 5.1
+int vesc_fw_version;  // 218 means 2.18 and 340 means 3.40
+int num_cells;        // Number of battery cells in series.  We don't care how many might be in parallel.
+int battery_type;     // 1: SPIM08HP LiIon cells;   2: standard Hobbyking style Lipo's
+int board_type;       // 1: 2-wheeler;  2: 4-wheeler
+
+
+int odd_even = 0;
+
+float current = 0.0;           // measured battery current
+float voltage = 0.0;           // measured battery voltage
+float c_speed = 0.0;           // measured rpm * Pi * wheel diameter [km] * 60 [minutes]
+float c_dist = 0.00;           // measured odometry tachometer [turns] * Pi * wheel diameter [km] 
+double power = 0.0;            // calculated power
+float rpm = 0.0;               // This will actually be motor RPM x 7 since the motors have 7 magnetic pole pairs
+float battery_remaining;       // This is the battery that powers the skateboard expressed in percentage
+
+
+BluetoothSerial SerialBT;
+uint8_t address_2[6]  = {0x00, 0x19, 0x10, 0x09, 0x0f, 0x48};  // This is the Address of the HC-05 module in the 2-wheel skateboard that we'll connect to.  The ESP32 will be master and the HC-05 will be slave.
+uint8_t address_4[6]  = {0x30, 0xA0, 0x02, 0x78, 0x90, 0xDF};  // This is the address of the JDY-30 module in the 4-wheel skateboard that we'll connect to.  The ESP32 will be master and the JDY-30 will be slave.
+
+bool connected;
+int button1;
+
+  
+
+
+void setup()
+    {
+    int i, error, status;
+    int cntr = 0;
+    float rem_battery_remaining; // This is the battery the powers the remote, expressed in percentage
+    float rem_v;
+    int msg_len;
+    double tmp_v;
+    
+    button1 = 0;
+    
+    // These parameters define what we need to know about the board and battery configuration
+    vesc_fw_version = 51;      // Which version the VESC firmware is running.  2.18 => 218 and 3.40 => 340; 5.1 => 51
+    num_cells = 6;            // Number of battery cells in series.  We don't care how many might be in parallel.
+    battery_type = SPIM08HP;   // SPIM08HP (LiIon cells) or LIPO (standard Hobbyking style Lipo's)
+    board_type = FOUR_WHEEL;    // TWO_WHEEL or FOUR_WHEEL
+
+    Serial.begin(9600);
+    while (! Serial);
+
+    Serial2.begin(9600, SERIAL_8N1, 16, 17); // Setup the ESP32 UART-2 to receive on GPIO16 and transmit on GPIO17; This port is used for logging to the MicroSD card
+
+    SerialBT.begin("ESP32testm", true); // Start the ESP32 bluetooth session.  Give the ESP32 bluetooth module the name "ESP32testm", and make it the master (true).
+                                        // This port will be used to communicate with the VESC UART via bluetooth
+
+    // Setup an interrupt to handle the button that selects the battery type
+    pinMode(5, INPUT_PULLUP);
+    attachInterrupt(5, button1_isr, FALLING);
+  
+    Wire.begin();
+    Wire.beginTransmission(0x27);
+    error = Wire.endTransmission();
+
+    lcd.init();
+    // lcd.backlight(); // turn on LCD backlight                      
+    
+   // Attempt to connect via bluetooth (and display battery remaining in remote)
+   bt_connect();
+
+    // Get an initial voltage reading from the VESC
+    while(1)
+        {
+        status = get_vesc_data(&voltage, &current, &rpm);
+        if (status)
+            {
+            if (battery_type == SPIM08HP)   battery_remaining = get_spim08hp_remaining(num_cells, voltage, current);
+            else /* battery_type == LIPO */ battery_remaining = compute_battery_remaining_lipo(num_cells, voltage);
+            break;
+            }
+       
+        lcd.clear();
+                
+        // Print remote battery remaining on 2nd half of 1st row
+        if (board_type == TWO_WHEEL)        rem_v = ReadVoltage(34) / TWO_WHEEL_DIVIDER;
+        else /* board type == FOUR_WHEEL */ rem_v = ReadVoltage(34) /FOUR_WHEEL_DIVIDER;
+        rem_battery_remaining = get_18650_remaining(1, rem_v);
+        lcd.setCursor(9, 0);
+        if (rem_battery_remaining < 100) lcd.print(" ");
+        if (rem_battery_remaining < 10) lcd.print(" ");
+        lcd.print(rem_battery_remaining);        
+        lcd.setCursor(14, 0);
+        lcd.print(" \%");
+
+        lcd.setCursor(0, 1);
+        if (cntr == 0)      lcd.print("Initializing");
+        else if (cntr == 1) lcd.print("Initializing.");
+        else if (cntr == 2) lcd.print("Initializing..");  
+        else                lcd.print("Initializing...");
+        cntr++;
+        if (cntr > 3) cntr = 0;
+
+        // Log "Initializing..." to the SD card
+        Serial2.print("Initializing..."); 
+        Serial2.write(13);
+        
+        delay(500);
+        }        
+
+    // Log the header to the SD card
+    Serial2.print("mSecs  voltage  current   Speed   Battery_Remaining"); 
+    Serial2.write(13);
+    }
+
+
+
+
+
+/*===========================================================================================================================
+   4-wheeler
+        speed = RPM / 7.0;                      RPM of motor - accounting for the fact the motor has 7 magnetic poles pairs.
+        speed = speed * 13 / 72;                 RPM of wheel after 13:72 gear reduction
+        speed = speed / 60.0;                    Revs/Sec of wheel
+        speed = speed * 2.666667;                Ft/Sec of wheel given its 32" circumference
+        speed = speed * .6818;                   MPH of wheel
+        In the end... 
+        speed = RPM /1279.4;
+
+   2-wheeler
+        speed = RPM / 7.0;    RPM of motor - accounting for the fact the motor has 7 magnetic poles pairs.
+        speed = speed * 15 / 89;                 RPM of wheel after 15:89 gear reduction
+        speed = speed / 60.0;                    Revs/Sec of wheel
+        speed = speed * 2.666667;                Ft/Sec of wheel given its 32" circumference
+        speed = speed * .6818;                   MPH of wheel
+        In the end... 
+        speed = RPM /1370.6;
+=============================================================================================================================*/
+void loop()
+    {
+    delay(500);
+    float rem_battery_remaining; // This is the battery the powers the remote, expressed in percentage
+    int remote_voltage;
+    float rem_v;
+    float tmp_batt;
+
+    // Change battery type if button-1 has been pressed
+    if (button1)
+        {
+        lcd.clear();
+        if (battery_type == SPIM08HP)
+            {
+            battery_type = LIPO;
+            // reset battery_remaining so we don't have to wait for the IIR 
+            battery_remaining = compute_battery_remaining_lipo(num_cells, voltage);
+            lcd.print("LiPo");
+            }
+        else
+            {
+            battery_type = SPIM08HP;
+            // reset battery_remaining so we don't have to wait for the IIR 
+            battery_remaining = get_spim08hp_remaining(num_cells, voltage, current);
+            lcd.print("SPIM08HP");
+            }
+       delay(1500);
+       button1 = 0;
+       }  
+
+    if (board_type == TWO_WHEEL)        rem_v = ReadVoltage(34) / TWO_WHEEL_DIVIDER;
+    else /* board type == FOUR_WHEEL */ rem_v = ReadVoltage(34) /FOUR_WHEEL_DIVIDER;
+    rem_battery_remaining = get_18650_remaining(1, rem_v);
+ 
+    if (get_vesc_data(&voltage, &current, &rpm))
+        {
+        if (battery_type == SPIM08HP)   tmp_batt = get_spim08hp_remaining(num_cells, voltage, current);
+        else /* battery_type == LIPO */ tmp_batt = compute_battery_remaining_lipo(num_cells, voltage);
+        power = current*voltage;    // Not currently used
+        if (board_type == TWO_WHEEL)         c_speed = rpm / 1370.6;
+        else /* board_type == FOUR_WHEEL */  c_speed = rpm / 1279.4;
+        if (c_speed < 0.0) c_speed = 0.0;  // sometimes the display was showing -0.0
+    
+        // Apply an IIR filter to the battery remaining so it doesn't jump around when throttle drags the battery voltage lower
+        battery_remaining = (battery_remaining * 19.0 + tmp_batt) / 20.0;
+ 
+        lcd.clear();
+
+        // Print speed on 1st half of 1st row
+        lcd.setCursor(0, 0);
+        if (c_speed < 10) lcd.print(" ");
+        lcd.print(c_speed);
+        lcd.setCursor(4, 0);
+        lcd.print(" MPH     ");
+
+        // lcd.setCursor(10, 0);
+        // if (rem_v < 10) lcd.print(" ");
+        // lcd.print(rem_v);
+        // lcd.setCursor(14, 0);
+        // lcd.print(" V");
+
+        // lcd.setCursor(10, 0);
+        // lcd.print(current);
+        // lcd.print(" Amps     ");
+
+        // Print remote battery remaining on 2nd half of 1st row
+        lcd.setCursor(9, 0);
+        if (rem_battery_remaining < 100) lcd.print(" ");
+        if (rem_battery_remaining < 10) lcd.print(" ");
+        lcd.print(rem_battery_remaining);
+        lcd.setCursor(14, 0);
+        lcd.print(" \%");
+
+        // Print skateboard battery remaining on 1st half of 2nd row
+        lcd.setCursor(0, 1);
+        if (battery_remaining < 100) lcd.print(" ");
+        if (battery_remaining < 10) lcd.print(" ");
+        lcd.print(battery_remaining);
+        lcd.setCursor(5, 1);
+        if (board_type == TWO_WHEEL)
+           {
+           lcd.print(" \%   ");
+           }
+        else
+           {
+           if (battery_type == SPIM08HP) lcd.print(" \%i  ");
+           else                          lcd.print(" \%L  ");
+           }
+
+        // Print "current-in" on 2nd half of 2nd row
+        lcd.setCursor(9, 1);
+        if (current < 100) lcd.print(" ");
+        if (current < 10) lcd.print(" ");
+        lcd.print(current);
+        lcd.setCursor(15, 1);
+        lcd.print("A");
+        log_data();
+        }
+    else
+        {
+        // Error message when VESC is not connected or UART data
+        // can not be read by the Arduino.
+        lcd.clear();
+        if (SerialBT.hasClient() == 0) ESP.restart();
+        // Print remote battery remaining on 2nd half of 1st row
+        lcd.setCursor(9, 0);
+        if (rem_battery_remaining < 100) lcd.print(" ");
+        if (rem_battery_remaining < 10) lcd.print(" ");
+        lcd.print(rem_battery_remaining);
+        lcd.setCursor(14, 0);
+        lcd.print(" \%");
+        
+        lcd.setCursor(0, 1);
+        if (odd_even == 0)
+           {
+           lcd.print("*** No Data ***");
+           odd_even = 1;
+           }
+        else
+           {
+           lcd.print("    No Data");
+           odd_even = 0;
+           }
+        }
+    }
+
+
+
+
+
+void bt_connect()
+    {
+    float rem_v, rem_battery_remaining;
+    
+    // Read and display the voltage in the hand remote before attempting to connect via bluetooth.
+    if (board_type == TWO_WHEEL)        rem_v = ReadVoltage(34) / TWO_WHEEL_DIVIDER; 
+    else /* board type == FOUR_WHEEL */ rem_v = ReadVoltage(34) /FOUR_WHEEL_DIVIDER;
+    rem_battery_remaining = get_18650_remaining(1, rem_v);
+    lcd.clear();
+    lcd.setCursor(9, 0);
+    if (rem_battery_remaining < 100) lcd.print(" ");
+    if (rem_battery_remaining < 10) lcd.print(" ");
+    lcd.print(rem_battery_remaining);       
+    lcd.setCursor(14, 0);
+    lcd.print(" \%"); 
+
+    do
+       {
+       lcd.setCursor(0, 1);
+       lcd.print("Connecting...");
+       Serial2.print("Connecting..."); // Log "Connecting..." to the MicroSD card
+       Serial2.write(13);
+       if (board_type == TWO_WHEEL)        connected = SerialBT.connect(address_2);
+       else /* board_type == FOUR_WHEEL */ connected = SerialBT.connect(address_4);
+       } while (SerialBT.hasClient() == 0);
+    }
+
+
+/*--------------------------------------------------------------------------------------------*
+A lipo cell is considered fully charged at 4.2V   I consider it fully discharged at 3.5V
+
+Discharge %   Voltage/6S-pack
+-----------   ---------------
+ 0.0          25.2000   (fully charged)
+ 0.948        24.5496
+ 11.11        23.6912
+ 22.09        23.1808
+ 33.33        22.7400
+ 44.31        22.4152
+ 55.42        22.1136
+ 66.40        21.9048
+ 77.51        21.7192
+ 88.48        21.5568
+ 94.99        21.3480
+ 100.0        21.0000   (fully discharged)
+*--------------------------------------------------------------------------------------------*/
+
+
+/*--------------------------------------------------------------------------------------------*
+The SPIM08HP (Li-Ion) cells are considered fully charged at 4.2V.
+I consider them fully discharged at 2.8V
+
+SPIM08HP (Li-Ion) discharge curve at 10A draw
+
+Volts/cell    Charge remaining (%)      current_grad_minus       current_grad_plus
+ 2.8            0.00                      0.1                        0.075
+ 2.9            1.31                      0.047                      0.047
+ 3.0            2.61                      0.067                      0.067
+ 3.1            3.06                      0.125                      0.163
+ 3.2            4.35                      0.234                      0.326
+ 3.3            8.01                      0.514                      0.512
+ 3.4           20.5                       1.145                      1.080
+ 3.5           37.39                      1.475                      0.695
+ 3.6           54.43                      0.861                      0.975
+ 3.7           68.14                      0.822                      0.553
+ 3.8           79.68                      0.871                      0.935
+ 3.9           90.59                      0.690                      0.829
+ 4.0           98.98                      0.563                      0.086
+ 4.1           99.50                      0.088                      0.088
+ 4.2          100.00                      0.050                      0.050
+
+After computing the nominal remaining charge based on voltage (assuming a 10A draw) we use
+current_grad_minus or current_grad_plus to modify the results based on non-nominal current 
+draw.  current_grad_plus should be used if the specified current is greater than the 
+10A nominal value, and current_grad_minus used if the current is less than 10A.
+These parameters indicate how many percentage points you add to the remaining capacity
+based on how much more or less current you're drawing relative to the 10A nominal value.
+*--------------------------------------------------------------------------------------------*/
+double get_spim08hp_remaining(int num_cells, double volts, double current)
+   {
+   int i;
+   double x, slope, upper_limit, lower_limit;
+   double remaining_charge[15] =   {100.0, 99.5,   98.98, 90.59, 79.68, 68.14, 54.43, 37.39, 20.50, 8.01,   4.35,  3.06,  2.61,  1.31,  0.0};
+   double voltage[15] =            {4.2,   4.1,     4.0,   3.9,   3.8,   3.7,   3.6,   3.5,   3.4,   3.3,   3.2,   3.1,   3.0,   2.9,   2.8};
+   double current_grad_minus[15] = {0.050, 0.088, 0.563, 0.690, 0.871, 0.822, 0.861, 1.475, 1.145, 0.514, 0.234, 0.125, 0.067, 0.047, 0.1};
+   double current_grad_plus[15] =  {0.050, 0.088, 0.086, 0.829, 0.935, 0.553, 0.975, 0.695, 1.080, 0.512, 0.326, 0.163, 0.067, 0.047, 0.075};
+  
+   volts = volts / (float)num_cells;
+   
+   if (volts > 4.2) volts = 4.2;
+   if (volts < 2.8) volts = 2.8;
+
+   for(i=0; i<15; i++)
+      {
+      if (volts >= voltage[i]) break;
+      }
+
+   if (i == 0) return(100);
+   x = interp(voltage[i-1], volts, voltage[i], remaining_charge[i-1], remaining_charge[i]);
+
+   // Find the half-way points between the read voltage and the 100% and 0% values.
+   upper_limit = (100.0 + x) / 2.0;
+   lower_limit = (x + 0.0) / 2.0;
+
+   // Now we make an adjustment for the non-nominal current.
+   if (current > 10.0) slope = interp(voltage[i-1], volts, voltage[i], current_grad_plus[i-1], current_grad_plus[i]);
+   else                slope = interp(voltage[i-1], volts, voltage[i], current_grad_minus[i-1], current_grad_minus[i]);
+    
+   x += slope*(current - 10.0);
+
+   // I've found that it's actually possible for this to show more than 100% charge due to implementing the 
+   // current-gradient correction (presumably since it's a simplified, linearized model.  So now I will 
+   // arbitrarily constrain it so that it can't move the voltage more than half-way to full or empty.
+   if (x > upper_limit) x = upper_limit;
+   else if (x < lower_limit) x = lower_limit;
+  
+   return(x);
+   }
+
+
+
+
+
+//---------------------------------------------------------------------------------------------
+// 18650 (Li-Ion) cells are considered fully charged at 4.2V.
+// I consider them fully discharged at 3.273V.
+//
+// Volts     % charge remaining
+// ----------------------------
+// 3.273     0.0
+// 3.439     16.645
+// 3.539     33.291
+// 3.648     49.937
+// 3.784     66.708
+// 3.928     83.103
+// 3.998     88.986
+// 4.138     100.00
+// (assumes a 0.2C discharge rate)
+//*---------------------------------------------------------------------------------------------
+double get_18650_remaining(int num_cells, double volts)
+   {
+   int i;
+   double x, slope;
+   double voltage[8] =            {4.138,  3.998,  3.928,  3.784,  3.648,  3.539,  3.439,  3.273};
+   double remaining_charge[8] =   {100.00, 88.986, 83.103, 66.708, 49.937, 33.291, 16.645, 0.0};
+   volts = volts / (float)num_cells;
+   
+   if (volts > 4.138) volts = 4.138;
+   if (volts < 3.273) volts = 3.273;
+
+   for(i=0; i<8; i++)
+      {
+      if (volts >= voltage[i]) break;
+      }
+
+   if (i == 0) return(100);
+   x = interp(voltage[i-1], volts, voltage[i], remaining_charge[i-1], remaining_charge[i]);
+    
+   return(x);
+   }
+
+
+
+
+
+double interp(double x1, double x2, double x3, double y1, double y3)
+   {
+   double y2;
+
+   y2 = y1 + (y3-y1)*(x2-x1)/(x3-x1);
+
+   return(y2);
+   }
+
+
+
+
+void log_data()
+   {
+   Serial2.print(millis());
+   Serial2.print(" ");
+   Serial2.print(voltage);
+   Serial2.print(" ");
+   Serial2.print(current);
+   Serial2.print(" ");
+   Serial2.print(c_speed);
+   Serial2.print(" ");
+   Serial2.print(battery_remaining);
+   Serial2.write(13);
+   }
+
+int get_vesc_data(float *voltage, float *current, float *rpm)
+    {
+    int status;
+    
+    if (vesc_fw_version == 218) 
+        {
+        status = get_vesc_values_218(VescMeasuredValues_218);
+        *voltage = VescMeasuredValues_218.v_in; 
+        *current = VescMeasuredValues_218.current_in;
+        *rpm = VescMeasuredValues_218.rpm;
+        }
+    else if (vesc_fw_version == 340)
+        {
+        status = get_vesc_values_340(&VescMeasuredValues_340);
+        *voltage = VescMeasuredValues_340.inpVoltage; 
+        *current = VescMeasuredValues_340.avgInputCurrent;
+        *rpm = (float)(VescMeasuredValues_340.rpm);
+        }
+    else // vesc_fw_version == 51
+        {
+        status = get_vesc_values_51(&VescMeasuredValues_51);
+        *voltage = VescMeasuredValues_51.v_in; 
+        *current = VescMeasuredValues_51.current_in;
+        *rpm     = VescMeasuredValues_51.rpm;
+        }
+        
+    if (board_type == FOUR_WHEEL) *current *= 2.0;  // the 4-wheeler has two VESC's in parallel and we're only measuring current from one of them.
+    return(status);
+    }
+
+

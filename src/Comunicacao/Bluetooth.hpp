@@ -2,43 +2,60 @@
 #define BLUETOOTH_HPP
 
 #include <Arduino.h>
-#include <buffer.h>
+#include <VescUart/src/VescUart.h>
+#include <VescUart/src/datatypes.h>
+#include <VescUart/src/buffer.h>
+#include <VescUart/src/crc.h>
 #include <cstring>
-#include <datatypes.h>
-
-// Comandos do protocolo VESC
-#define COMM_SET_FOC 6          // Configuração para modo FOC
-#define COMM_SET_ADC 7          // Configuração para modo ADC
-#define COMM_CUSTOM_CONFIG 9    // Comando para configuração personalizada
-
+#include <BluetoothSerial.h>
 #include <BLEDevice.h>
 #include <BLEUtils.h>
 #include <BLEScan.h>
 #include <BLEAdvertisedDevice.h>
-#include <string>
 
 class Bluetooth {
 private:
-    BLEServer* pServer;
-    BLECharacteristic* pCharacteristic;
-    bool connected;
-    BLEAdvertisedDevice* myDevice;
+mc_values vescMeasuredValues; // Substitui VescMeasuredValues_51_teste
+
+    bool connected;                    // Estado da conexão Bluetooth
+    String connectedDeviceName;        // Nome do dispositivo conectado
+    float voltage;                     // Tensão atual medida pela VESC
+    float current;                     // Corrente atual medida pela VESC
+    float rpm;                         // RPM atual medido pela VESC
+
+    int check_crc(uint8_t* messageReceived, int message_len);  // Verifica CRC
+    void parse_vesc_data(uint8_t* data, int len);              // Interpreta dados do VESC
 
 public:
-    Bluetooth(void);
-    bool begin(const std::string& deviceName);
-    bool connectToDevice(const std::string& vescDeviceName);
-    void disconnect(void);
-    bool isConnected(void);
-    int sendCommand(uint8_t* command, int len);
-    int receiveData(uint8_t* buffer, int bufferSize);
-    bool processReceivedData(uint8_t* payload, int len);
+    Bluetooth();
+    ~Bluetooth();
 
-    // Métodos de configuração
-    bool setMotorConfiguration(uint8_t mode);
-    bool setFOCConfiguration(void);
-    bool setAdcPasMode(void);
-    bool setCustomConfiguration(uint8_t* config, int configLen);
+    void begin(const char* deviceName);                       // Inicializa o Bluetooth
+    bool connectToDevice(const char* deviceName);             // Conecta a um dispositivo BLE
+    bool reconnect();                                         // Reconexão automática
+
+    int send_payload(uint8_t* payload, int lenPay);           // Envia dados para o VESC
+    void sendCommand(const String& command);                  // Envia comandos genéricos
+    void receiveData();                                       // Recebe dados do VESC
+    void stop();                                              // Desconecta do dispositivo
+
+    bool isConnected();                                       // Retorna o estado da conexão
+
+    // Funções para controle do motor
+    void setTargetCurrent(float targetCurrent);               // Configura corrente alvo
+    void setTargetRPM(float targetRPM);                       // Configura RPM alvo
+    void setDutyCycle(float dutyCycle);                       // Configura Duty Cycle
+    void setVescMode(uint8_t mode);                           // Configura modos no VESC
+
+    // Funções para coleta de dados
+    int get_vesc_values_51();                                 // Obtém valores do VESC (modelo 51)
+    int get_vesc_data();                                      // Captura dados do VESC
+
+    // Getters para dados coletados
+    float getVoltage() const { return voltage; }              // Retorna a tensão
+    float getCurrent() const { return current; }              // Retorna a corrente
+    float getRPM() const { return rpm; }                      // Retorna o RPM
 };
 
-#endif // BLUETOOTH_HPP
+#endif
+
