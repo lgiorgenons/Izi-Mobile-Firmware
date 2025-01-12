@@ -84,4 +84,4 @@ Além disso, inclui um **módulo de emergência** que pode desligar rapidamente 
 ### **Passos**
 1. Clone este repositório:
    ```bash
-   git clone https://github.com/usuario/projeto-cadeira-rodas.git
+   git clone https://github.com/usuario/projeto-cadeira-rodas.git](https://github.com/lgiorgenons/Izi-Mobile-Firmware)
