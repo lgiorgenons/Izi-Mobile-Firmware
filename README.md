@@ -1,87 +1,88 @@
-# **Controle de Sistema Auxiliar de Cadeira de Rodas Motorizada**
+# **Auxiliary System Control for Motorized Wheelchair**
 
-Este projeto implementa um sistema de controle remoto para cadeiras de rodas motorizadas, fornecendo uma experiência de mobilidade segura, eficiente e inovadora. Ele utiliza o controlador VESC 6.9 para gerenciar motores BLDC e integra o microcontrolador ESP32 para comunicação, monitoramento em tempo real e funcionalidades avançadas de segurança.
-
----
-
-## **Índice**
-1. [Descrição Geral](#descrição-geral)
-2. [Funcionalidades](#funcionalidades)
-3. [Arquitetura do Projeto](#arquitetura-do-projeto)
-4. [Instruções de Instalação](#instruções-de-instalação)
-5. [Como Usar](#como-usar)
-6. [Estrutura do Código](#estrutura-do-código)
-7. [Componentes e Materiais Utilizados](#componentes-e-materiais-utilizados)
-8. [Melhorias Futuras](#melhorias-futuras)
-9. [Licença](#licença)
+This project implements a remote control system for motorized wheelchairs, providing a safe, efficient, and innovative mobility experience. It uses the **VESC 6.9 controller** to manage BLDC motors and integrates the **ESP32 microcontroller** for communication, real-time monitoring, and advanced safety features.
 
 ---
 
-## **Descrição Geral**
-
-O sistema é composto por hardware e software que trabalham de forma integrada para controlar o motor BLDC, monitorar a bateria de potência e fornecer feedback contínuo ao usuário. Ele permite controle por Bluetooth e USB, exibindo informações no display OLED, como:
-- Nível de bateria.
-- Velocidade atual.
-- Modo de operação ativo.
-- Status de eficiência operacional.
-
-Além disso, inclui um **módulo de emergência** que pode desligar rapidamente o sistema em situações críticas.
-
----
-
-## **Funcionalidades**
-
-1. **Controle de Velocidade Dinâmico**:
-   - Ajuste de velocidade via encoder rotativo.
-   - Parada segura ao pressionar o encoder.
-
-2. **Modos de Operação Inteligentes**:
-   - **Modo Inoperante**: Sistema desativado.
-   - **Modo Interno**: Limite de velocidade para ambientes fechados.
-   - **Modo Externo**: Potência e velocidade aumentadas para terrenos externos.
-
-3. **Monitoramento de Bateria em Tempo Real**:
-   - Dados detalhados de carga, tensão, corrente e temperatura da bateria via Bluetooth.
-
-4. **Conexão Flexível**:
-   - Comunicação via Bluetooth ou USB com fallback automático.
-
-5. **Feedback Visual e Sonoro**:
-   - Display OLED para informações do sistema.
-   - Alertas sonoros para emparelhamento, ajustes e falhas.
-
-6. **Segurança Avançada**:
-   - Módulo de emergência para desligamento instantâneo.
-   - Proteções contra sobrecarga e superaquecimento.
+## **Index**
+1. [Overview](#overview)  
+2. [Features](#features)  
+3. [Project Architecture](#project-architecture)  
+4. [Installation Instructions](#installation-instructions)  
+5. [Usage Guide](#usage-guide)  
+6. [Code Structure](#code-structure)  
+7. [Components and Materials Used](#components-and-materials-used)  
+8. [Future Improvements](#future-improvements)  
+9. [License](#license)
 
 ---
 
-## **Arquitetura do Projeto**
+## **Overview**
+
+The system is composed of hardware and software that work together to control the BLDC motor, monitor the power battery, and continuously provide feedback to the user. It supports control via **Bluetooth and USB**, displaying information on an **OLED display**, such as:
+- Battery level  
+- Current speed  
+- Active operation mode  
+- Operational efficiency status  
+
+Additionally, it includes an **emergency module** that can quickly shut down the system in critical situations.
+
+---
+
+## **Features**
+
+1. **Dynamic Speed Control**  
+   - Speed adjustment using a rotary encoder  
+   - Safe stop by pressing the encoder  
+
+2. **Smart Operation Modes**  
+   - **Inactive Mode**: System is disabled  
+   - **Indoor Mode**: Speed limited for indoor environments  
+   - **Outdoor Mode**: Increased power and speed for outdoor terrain  
+
+3. **Real-Time Battery Monitoring**  
+   - Detailed data on charge, voltage, current, and battery temperature via Bluetooth  
+
+4. **Flexible Connectivity**  
+   - Communication via Bluetooth or USB with automatic fallback  
+
+5. **Visual and Audio Feedback**  
+   - OLED display for system information  
+   - Audible alerts for pairing, adjustments, and failures  
+
+6. **Advanced Safety**  
+   - Emergency module for instant shutdown  
+   - Overload and overheating protection  
+
+---
+
+## **Project Architecture**
 
 ### **Hardware**
-- **Controlador VESC 6.9**: Gerencia torque, corrente e velocidade do motor BLDC.
-- **ESP32 DEVKITV1**: Microcontrolador para processamento e comunicação.
-- **Display OLED (128x64 px)**: Interface visual para o usuário.
-- **Encoder Rotativo KY-040**: Controle de velocidade.
-- **Módulo de Emergência**: Desliga o sistema em situações críticas.
-- **BMS**: Monitora a bateria de potência.
+- **VESC 6.9 Controller**: Manages torque, current, and speed of the BLDC motor  
+- **ESP32 DEVKITV1**: Microcontroller for processing and communication  
+- **OLED Display (128x64 px)**: Visual interface for the user  
+- **KY-040 Rotary Encoder**: Speed control  
+- **Emergency Module**: Instantly shuts down the system in critical situations  
+- **BMS (Battery Management System)**: Monitors the power battery  
 
 ### **Software**
-- **Firmware ESP32**: Implementa a comunicação entre VESC, BMS e controle remoto.
-- **Bibliotecas Importantes**:
-  - `VescUart.cpp`: Gerencia a comunicação UART com o VESC.
-  - `datatypes.h`: Define tipos e estruturas utilizadas pelo firmware.
-  - `u82g`: Responsável pelo gerenciamento do display e todas sua responsividade
+- **ESP32 Firmware**: Handles communication between VESC, BMS, and remote control  
+- **Key Libraries**:
+  - `VescUart.cpp`: Manages UART communication with the VESC  
+  - `datatypes.h`: Defines types and structures used by the firmware  
+  - `u8g2`: Handles display management and its responsiveness  
+
 ---
 
-## **Instruções de Instalação**
+## **Installation Instructions**
 
-### **Pré-requisitos**
-- Arduino IDE ou PlatformIO instalado.
-- Biblioteca `esp32` adicionada ao ambiente.
-- Hardware configurado conforme esquemático.
+### **Requirements**
+- Arduino IDE or PlatformIO installed  
+- `esp32` board package added to the environment  
+- Hardware wired according to the schematic  
 
-### **Passos**
-1. Clone este repositório:
+### **Steps**
+1. Clone this repository:
    ```bash
-   git clone https://github.com/usuario/projeto-cadeira-rodas.git](https://github.com/lgiorgenons/Izi-Mobile-Firmware)
+   git clone https://github.com/lgiorgenons/Izi-Mobile-Firmware
